@@ -33,11 +33,12 @@
 <body>
 
 <h1>Privacy Policy</h1>
-<p class="meta">Effective date: 2026-08-10</p>
+<p class="meta">Effective date: 2026-08-15</p>
 
 <p>Applies to: Video Compressor: Resize MB · Image Compressor: Photo to KB ·
-PDF Compressor: Reduce to KB · Audio Converter &amp; MP3 Cutter
-(&ldquo;the Apps&rdquo;), published by Boonwiz (&ldquo;we&rdquo;).</p>
+PDF Compressor: Reduce to KB · Audio Converter &amp; MP3 Cutter ·
+Sweep: Duplicate Photo Cleaner (&ldquo;the Apps&rdquo;), published by Boonwiz
+(&ldquo;we&rdquo;).</p>
 
 <h2>The short version</h2>
 <p>Your files are processed entirely on your device — we never receive, store,
@@ -48,10 +49,29 @@ are the only reason any advertising data exists in these Apps, and going
 Pro removes ads entirely.</p>
 
 <h2>1. Your content</h2>
-<p>All compression, conversion, and editing happens locally on your device.
-Your files are never uploaded to us or anyone else. Temporary working
+<p>All compression, conversion, editing, and scanning happens locally on your
+device. Your files are never uploaded to us or anyone else. Temporary working
 copies stay on your device and are deleted within 24 hours or when you
 delete them. Exported images have location (EXIF) metadata removed.</p>
+
+<h2>1a. Media library access</h2>
+<p><strong>Sweep: Duplicate Photo Cleaner</strong> asks for permission to read
+your photos, videos, and audio (<code>READ_MEDIA_IMAGES</code>,
+<code>READ_MEDIA_VIDEO</code>, <code>READ_MEDIA_AUDIO</code>, and on Android 12
+and below <code>READ_EXTERNAL_STORAGE</code>). It needs this because finding
+duplicates means comparing files against one another across your whole library
+— you cannot pick out duplicates you do not yet know exist.</p>
+<p>Sweep reads your files to compare them, and reads file size, date, and folder
+name to find large, old, or leftover files. Nothing it reads is sent anywhere.
+Deleting is always done through Android's own confirmation dialog, and anything
+you delete is kept in Sweep's recycle bin for 7 days so you can restore it.</p>
+<p><strong>Video Compressor: Resize MB</strong> asks for permission to read
+videos (<code>READ_MEDIA_VIDEO</code>) for one optional feature: telling you
+when you have recorded a video too large to share. It reads only each video's
+size, date, and folder — never the video itself. Declining changes nothing
+else about the app.</p>
+<p>The other three Apps request no media permission at all. They use Android's
+built-in photo picker, which hands them only the files you choose.</p>
 
 <h2>2. Information collected</h2>
 <p>(a) Advertising data (free version only). We use Google AdMob to show
@@ -70,9 +90,10 @@ RevenueCat to manage subscriptions; it receives an anonymous app-generated
 identifier and your purchase history for these Apps so Pro works and can
 be restored. We never receive your name, email, or card details.</p>
 
-<p>(c) Anonymous usage analytics. TelemetryDeck counts anonymized events
-(e.g., &ldquo;a file was compressed&rdquo;) to help us improve the Apps. Aggregated;
-cannot identify you.</p>
+<p>(c) Usage analytics: none. The Apps contain no analytics SDK and send us no
+usage data of any kind. We do not know how often you use them, which features
+you use, or whether a job succeeded. Earlier versions included anonymous
+analytics; it was removed.</p>
 
 <p>(d) Support email. If you write to
 <a href="mailto:boonyboonapp@gmail.com">boonyboonapp@gmail.com</a>, we use what you send
@@ -85,15 +106,15 @@ no banner or pop-up ads.</p>
 
 <h2>4. Legal bases &amp; your rights (GDPR/UK GDPR/CCPA and similar)</h2>
 <p>Ads (EEA/UK): consent, withdrawable anytime via the in-app privacy options
-link in Settings. Purchases: contract. Analytics: legitimate interest,
-anonymous. You may have rights to access, correct, delete, or object;
+link in Settings. Purchases: contract. No analytics are collected, so there is
+no analytics processing to have a legal basis for. You may have rights to access, correct, delete, or object;
 contact <a href="mailto:boonyboonapp@gmail.com">boonyboonapp@gmail.com</a>
 (response within 30 days). California residents:
 we do not &ldquo;sell&rdquo; personal information; ad personalization can be limited
 via consent choices and Android's ad settings.</p>
 
 <h2>5. Retention</h2>
-<p>Your files: on your device, yours. Analytics: aggregate.
+<p>Your files: on your device, yours. Analytics: none are collected.
 Purchase records: as required by tax law. Support email: ≤24 months.
 Advertising data: held by Google per its policy, not by us.</p>
 
@@ -106,8 +127,8 @@ configured as not child-directed with G-rated content only.</p>
 Your files never transit at all.</p>
 
 <h2>8. Service providers</h2>
-<p>Google LLC (Play billing, AdMob ads), RevenueCat
-Inc. (subscriptions), TelemetryDeck (anonymous analytics).</p>
+<p>Google LLC (Play billing, AdMob ads) and RevenueCat Inc.
+(subscriptions). There is no analytics provider.</p>
 
 <h2>9. Changes</h2>
 <p>Posted here with an updated effective date.</p>
