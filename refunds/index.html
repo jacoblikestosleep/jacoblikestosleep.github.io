@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FTC Refunds &amp; Settlements — money you may be owed, in one place</title>
+<meta name="description" content="Refund programs, class action settlements and recall payouts you may be owed, with the deadline and the official claim link. Free to check, free to file.">
+<style>
+  /* Money green on a deep ground. The one thing this page must not look like is
+     a "free money" site: no cash imagery, no gold, no urgency red. The colour
+     does the reassuring and the copy does the selling. */
+  :root {
+    --ground: #f4f7f5;
+    --surface: #ffffff;
+    --deep: #06301f;
+    --deep-2: #0a4a30;
+    --ink: #11201a;
+    --ink-2: #4a5952;
+    --ink-3: #7b8a83;
+    --line: #dee6e1;
+    --green: #16a46a;
+    --green-dk: #0f7b4f;
+    --mint: #d9f0e4;
+    --shadow: 0 1px 2px rgba(6, 48, 31, .05), 0 14px 40px rgba(6, 48, 31, .07);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0a0f0c;
+      --surface: #121a15;
+      --deep: #04241a;
+      --deep-2: #073526;
+      --ink: #e9f0eb;
+      --ink-2: #a9b8b0;
+      --ink-3: #7c8b83;
+      --line: #22302a;
+      --green: #2fbb7c;
+      --green-dk: #4cc98c;
+      --mint: #10281e;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 40px rgba(0, 0, 0, .3);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--ground); color: var(--ink);
+    font: 400 16px/1.62 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 22px; }
+  a { color: var(--green-dk); }
+
+  /* ---- hero ---------------------------------------------------------- */
+  .hero { background: var(--deep); color: #eaf6ef; padding: 26px 0 76px; }
+  .nav {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 14px; margin-bottom: 62px;
+  }
+  .nav a { color: #8fc7ac; text-decoration: none; }
+  .nav a:hover { color: #eaf6ef; }
+  .nav .sep { color: #2c5c47; }
+
+  .hero h1 {
+    font-size: clamp(34px, 6vw, 56px); line-height: 1.08; margin: 0 0 20px;
+    letter-spacing: -.03em; max-width: 15ch; text-wrap: balance;
+  }
+  .hero h1 em { font-style: normal; color: #56d69b; }
+  .hero .lede {
+    font-size: clamp(17px, 2.2vw, 20px); color: #b6d8c6; margin: 0 0 34px;
+    max-width: 50ch; line-height: 1.55;
+  }
+  .cta {
+    display: inline-block; background: var(--green); color: #04241a;
+    font-weight: 600; font-size: 16px; text-decoration: none;
+    padding: 15px 30px; border-radius: 10px;
+  }
+  .cta:hover { background: #56d69b; }
+  .cta:focus-visible { outline: 3px solid #8fc7ac; outline-offset: 3px; }
+  .under { font-size: 13.5px; color: #7fae95; margin: 14px 0 0; }
+
+  /* ---- the number strip ---------------------------------------------- */
+  .strip {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1px; background: var(--line); border: 1px solid var(--line);
+    border-radius: 12px; overflow: hidden;
+    margin: -38px auto 0; position: relative; box-shadow: var(--shadow);
+  }
+  .strip div { background: var(--surface); padding: 18px 20px; }
+  .strip dt {
+    font-size: 11.5px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--ink-3); margin: 0 0 6px;
+  }
+  .strip dd {
+    margin: 0; font-size: 15px; font-weight: 600; color: var(--ink);
+    line-height: 1.35;
+  }
+
+  /* ---- sections ------------------------------------------------------ */
+  section { padding: 72px 0 0; }
+  h2 {
+    font-size: clamp(24px, 3.4vw, 32px); line-height: 1.18; margin: 0 0 14px;
+    letter-spacing: -.02em; max-width: 20ch; text-wrap: balance;
+  }
+  .sub { color: var(--ink-2); font-size: 17px; margin: 0 0 34px; max-width: 58ch; }
+
+  .shots {
+    display: grid; gap: 26px; grid-template-columns: 1fr;
+  }
+  @media (min-width: 760px) { .shots { grid-template-columns: repeat(3, 1fr); } }
+  .shot img {
+    width: 100%; height: auto; display: block;
+    border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow);
+  }
+  .shot h3 { font-size: 16.5px; margin: 18px 0 5px; letter-spacing: -.01em; }
+  .shot p { font-size: 14.5px; color: var(--ink-2); margin: 0; line-height: 1.55; }
+
+  .promise {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 34px; box-shadow: var(--shadow);
+  }
+  .promise h2 { margin-bottom: 10px; }
+  .promise ul { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 15px; }
+  .promise li {
+    display: flex; gap: 13px; align-items: flex-start;
+    font-size: 15.5px; color: var(--ink-2); line-height: 1.55;
+  }
+  .promise li b { color: var(--ink); font-weight: 600; }
+  .tick {
+    flex: none; width: 21px; height: 21px; border-radius: 50%;
+    background: var(--mint); color: var(--green-dk);
+    display: grid; place-items: center; font-size: 12px; font-weight: 700;
+    margin-top: 2px;
+  }
+
+  .warn {
+    border-left: 3px solid var(--green); background: var(--mint);
+    padding: 20px 24px; border-radius: 0 12px 12px 0; margin: 30px 0 0;
+  }
+  .warn p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  .warn b { color: var(--ink); }
+
+  .kinds { display: grid; gap: 10px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .kinds { grid-template-columns: 1fr 1fr; } }
+  .kind {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; padding: 16px 18px;
+  }
+  .kind b { display: block; font-size: 15px; margin-bottom: 3px; }
+  .kind span { font-size: 14px; color: var(--ink-2); }
+
+  footer {
+    margin-top: 84px; border-top: 1px solid var(--line);
+    padding: 30px 0 70px; font-size: 13.5px; color: var(--ink-3);
+  }
+  footer a { color: var(--ink-3); }
+  .disclaimer {
+    margin-top: 16px; max-width: 68ch; line-height: 1.6;
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <nav class="nav">
+      <a href="../">Boonwiz</a>
+      <span class="sep">/</span>
+      <span>FTC Refunds &amp; Settlements</span>
+    </nav>
+    <h1>Money you may be owed, <em>in one place</em>.</h1>
+    <p class="lede">Refund programs, class action settlements, data breach
+      payouts and recall refunds &mdash; each with its deadline and the official
+      claim link. Free to check. Free to file. Always.</p>
+    <a class="cta" href="https://play.google.com/store/apps/details?id=com.getbackpay.refunds">Get it on Google Play</a>
+    <p class="under">No account. Nothing to sign up for.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <dl class="strip">
+    <div><dt>Live right now</dt><dd>171 programs</dd></div>
+    <div><dt>Covers</dt><dd>FTC, CFPB, courts, recalls</dd></div>
+    <div><dt>Cost to file</dt><dd>Always $0</dd></div>
+    <div><dt>Checked</dt><dd>Every card, dated</dd></div>
+  </dl>
+
+  <section>
+    <h2>Most people never find out.</h2>
+    <p class="sub">When a claim form is required, only a small share of the
+      people entitled to money ever file &mdash; usually because nobody told them
+      the program existed, or the deadline passed before they heard about it.
+      Settlements are announced once, in places no one reads, and then they
+      quietly close.</p>
+
+    <div class="shots">
+      <div class="shot">
+        <img src="img/feed.png" alt="The app's feed, showing refund programs matched to the user with amounts and days remaining." width="520" height="807">
+        <h3>One feed, everything in it</h3>
+        <p>Sorted by what closes soonest, and matched to your state and the
+          companies you have actually used.</p>
+      </div>
+      <div class="shot">
+        <img src="img/quiz.png" alt="An eligibility self-check with plain-English yes or no questions." width="520" height="807">
+        <h3>A 60-second self-check</h3>
+        <p>Plain questions you can answer from memory. Your answers stay on your
+          phone and are never sent anywhere.</p>
+      </div>
+      <div class="shot">
+        <img src="img/track.png" alt="The claim tracker, showing the total being tracked and the status of a filed claim." width="520" height="807">
+        <h3>Tracked to payday</h3>
+        <p>Payouts take months. The app remembers what you filed and tells you
+          when the money should move.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="promise">
+      <h2>How you know it is legitimate</h2>
+      <p class="sub" style="margin-bottom:0">This category is full of apps that
+        want your details. Here is what this one will never do.</p>
+      <ul>
+        <li><span class="tick">&#10003;</span><span><b>It never files for you.</b>
+          Every claim link opens the official site &mdash; a government agency or
+          the court-appointed administrator &mdash; in your own browser.</span></li>
+        <li><span class="tick">&#10003;</span><span><b>It never asks for your
+          Social Security number,</b> your bank details or your claim forms. No
+          legitimate refund-finding app needs them.</span></li>
+        <li><span class="tick">&#10003;</span><span><b>It never charges to file.</b>
+          Filing is free on the official site, every time, and the app says so on
+          every card.</span></li>
+        <li><span class="tick">&#10003;</span><span><b>Every card shows when it
+          was last checked.</b> Programs past their deadline leave the feed the
+          same day, automatically.</span></li>
+        <li><span class="tick">&#10003;</span><span><b>There is no account.</b>
+          No name, no email, no password &mdash; there is nothing to breach.</span></li>
+      </ul>
+
+      <div class="warn">
+        <p><b>A real refund never requires a payment.</b> If anyone asks you to
+          pay a fee, buy a gift card or send crypto to release a payout, it is a
+          scam. The app has a whole screen about how to tell the difference.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Six kinds of payout, one place to look</h2>
+    <p class="sub">Most apps in this category cover class actions only. Recalls
+      and agency refund programs are where a lot of the unclaimed money actually
+      sits.</p>
+    <div class="kinds">
+      <div class="kind"><b>FTC refund programs</b><span>Money returned after an enforcement action.</span></div>
+      <div class="kind"><b>Class action settlements</b><span>Open claim windows, with the deadline front and centre.</span></div>
+      <div class="kind"><b>Product recall refunds</b><span>A refund or replacement for something you already own.</span></div>
+      <div class="kind"><b>Data breach payouts</b><span>Compensation when your information was exposed.</span></div>
+      <div class="kind"><b>CFPB distributions</b><span>Payments to people harmed by a financial company.</span></div>
+      <div class="kind"><b>State settlements &amp; rebates</b><span>Attorney general actions and manufacturer rebates.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How it stays free</h2>
+    <p class="sub">Ads. That is the whole answer. There is no subscription and
+      there never will be &mdash; you can browse every headline, amount and
+      deadline without paying anything. Watching one short ad unlocks an item's
+      full details, and a single one-time purchase removes ads entirely if you
+      would rather not see them.</p>
+    <a class="cta" href="https://play.google.com/store/apps/details?id=com.getbackpay.refunds">Get it on Google Play</a>
+  </section>
+
+  <footer>
+    <p><a href="privacy.html">Privacy policy</a> &middot;
+       <a href="../">More Boonwiz apps</a> &middot;
+       Support: <a href="mailto:boonyboonapp@gmail.com">boonyboonapp@gmail.com</a></p>
+    <p class="disclaimer">Published by Backpay Labs. This app is not affiliated
+      with, endorsed by, or connected to the FTC, any government agency, or any
+      settlement administrator. All data comes from public sources: agency refund
+      pages, recall notices and court-appointed administrator sites.</p>
+    <p>&copy; 2026 Boonwiz</p>
+  </footer>
+</div>
+
+</body>
+</html>

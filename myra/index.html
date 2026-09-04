@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Myra — an AI companion who remembers you</title>
+<meta name="description" content="An AI companion who remembers your work, your week, the thing you were nervous about. Twelve characters, each with a life of their own. Honest about being AI, always.">
+<style>
+  /* Myra's own warmth, kept from the original page: plum through rose to a
+     late-evening amber. It is the one app in the portfolio allowed to be
+     emotional, so the ground carries the feeling and the copy stays plain. */
+  :root {
+    --plum: #6d3b5e;
+    --rose: #a84f63;
+    --amber: #d98a6a;
+    --cream: #fffdf6;
+    --ground: #fdf7f4;
+    --surface: #ffffff;
+    --ink: #2b1c26;
+    --ink-2: #5e4a55;
+    --ink-3: #8d7a84;
+    --line: #ecdfe4;
+    --shadow: 0 1px 2px rgba(43, 28, 38, .05), 0 14px 40px rgba(43, 28, 38, .07);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #150f13;
+      --surface: #1e161b;
+      --ink: #f3e9ee;
+      --ink-2: #c0adb7;
+      --ink-3: #8e7d87;
+      --line: #2f232a;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 40px rgba(0, 0, 0, .3);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0; background: var(--ground); color: var(--ink);
+    font: 400 16px/1.62 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 22px; }
+  a { color: var(--rose); }
+
+  .hero {
+    background: linear-gradient(135deg, var(--plum) 0%, var(--rose) 55%, var(--amber) 100%);
+    color: var(--cream); padding: 26px 0 78px;
+  }
+  .nav { display: flex; gap: 14px; font-size: 14px; margin-bottom: 62px; }
+  .nav a { color: #f3d9d2; text-decoration: none; }
+  .nav a:hover { color: var(--cream); }
+  .nav .sep { color: #c99a97; }
+
+  .hero h1 {
+    font-size: clamp(44px, 9vw, 76px); line-height: 1; margin: 0 0 14px;
+    letter-spacing: -.035em; font-weight: 700;
+  }
+  .tag { font-size: clamp(19px, 3vw, 25px); margin: 0 0 26px; opacity: .95; }
+  .hero p {
+    font-size: 17px; line-height: 1.6; margin: 0 0 32px;
+    max-width: 50ch; color: #f7e6e0;
+  }
+  .cta {
+    display: inline-block; background: var(--cream); color: var(--plum);
+    font-weight: 600; font-size: 16px; text-decoration: none;
+    padding: 15px 30px; border-radius: 999px;
+  }
+  .cta:hover { background: #fff; }
+  .cta:focus-visible { outline: 3px solid #f3d9d2; outline-offset: 3px; }
+  .age { font-size: 13.5px; color: #eecec6; margin: 15px 0 0; }
+
+  section { padding: 68px 0 0; }
+  h2 {
+    font-size: clamp(23px, 3.2vw, 30px); line-height: 1.2; margin: 0 0 12px;
+    letter-spacing: -.02em; max-width: 22ch; text-wrap: balance;
+  }
+  .sub { color: var(--ink-2); font-size: 17px; margin: 0 0 30px; max-width: 58ch; }
+
+  .points { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .points { grid-template-columns: 1fr 1fr; } }
+  .point {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 13px; padding: 24px 26px; box-shadow: var(--shadow);
+  }
+  .point h3 { font-size: 17px; margin: 0 0 7px; letter-spacing: -.015em; }
+  .point p { margin: 0; font-size: 15px; color: var(--ink-2); line-height: 1.55; }
+
+  .honest {
+    border-left: 3px solid var(--rose); background: var(--surface);
+    padding: 24px 28px; border-radius: 0 13px 13px 0; box-shadow: var(--shadow);
+  }
+  .honest h2 { margin-bottom: 10px; }
+  .honest p { color: var(--ink-2); margin: 0 0 12px; font-size: 15.5px; }
+  .honest p:last-child { margin-bottom: 0; }
+  .honest b { color: var(--ink); }
+
+  footer {
+    margin-top: 80px; border-top: 1px solid var(--line);
+    padding: 30px 0 70px; font-size: 13.5px; color: var(--ink-3);
+  }
+  footer a { color: var(--ink-3); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <nav class="nav">
+      <a href="../">Boonwiz</a><span class="sep">/</span><span>Myra</span>
+    </nav>
+    <h1>Myra</h1>
+    <p class="tag">Someone to talk to.</p>
+    <p>An AI companion who remembers you &mdash; your work, your week, the thing
+      you were nervous about. Conversations that pick up where they left off,
+      rather than starting from nothing every time.</p>
+    <a class="cta" href="https://play.google.com/store/apps/details?id=com.boonwiz.myra">Get it on Google Play</a>
+    <p class="age">18+ &middot; Myra's companions are AI characters, not real people.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section>
+    <h2>What makes it different</h2>
+    <p class="sub">Most chat apps forget you the moment you close them. The point
+      of this one is that it does not.</p>
+
+    <div class="points">
+      <div class="point">
+        <h3>It remembers</h3>
+        <p>The interview you were dreading, the friend you fell out with, what
+          you said you would do this week. Come back tomorrow and it is still
+          there.</p>
+      </div>
+      <div class="point">
+        <h3>Twelve companions</h3>
+        <p>Each with their own personality, way of talking and life going on
+          around them. You pick who you want to speak to.</p>
+      </div>
+      <div class="point">
+        <h3>It picks up where you left off</h3>
+        <p>No re-explaining yourself at the start of every conversation, which is
+          the thing that makes most chatbots exhausting.</p>
+      </div>
+      <div class="point">
+        <h3>No account needed to start</h3>
+        <p>Open it and talk. Nothing to sign up for before you find out whether
+          you like it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="honest">
+      <h2>Honest about being AI</h2>
+      <p><b>Myra's companions are AI characters, not real people</b>, and the app
+        says so rather than letting you wonder. It will not claim to be human if
+        you ask.</p>
+      <p>It is company, not care. If you are struggling with something serious,
+        the app points you at real crisis resources rather than trying to handle
+        it &mdash; and those are one tap away, not buried.</p>
+      <p>18+ only.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p><a href="https://sites.google.com/view/myra-privacy-policy/home">Privacy policy</a> &middot;
+       <a href="https://sites.google.com/view/myra-privacy-policy/home/terms-of-use">Terms of use</a> &middot;
+       <a href="https://sites.google.com/view/myra-privacy-policy/home/crisis-resource">Crisis resources</a> &middot;
+       <a href="../">More Boonwiz apps</a></p>
+    <p>Support: <a href="mailto:boonyboonapp@gmail.com">boonyboonapp@gmail.com</a></p>
+    <p>&copy; 2026 Boonwiz</p>
+  </footer>
+
+</div>
+</body>
+</html>

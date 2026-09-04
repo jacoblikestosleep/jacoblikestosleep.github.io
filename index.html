@@ -59,6 +59,10 @@
   }
 
   .apps { display: grid; gap: 12px; margin: 0 0 46px; }
+  .app.wide { grid-column: 1 / -1; }
+  .app .names {
+    margin-top: 10px; font-size: 13px; color: var(--ink-3);
+  }
   @media (min-width: 700px) { .apps { grid-template-columns: 1fr 1fr; } }
 
   .app {
@@ -108,7 +112,7 @@
   <h2>Apps</h2>
   <div class="apps">
 
-    <a class="app" href="https://play.google.com/store/apps/details?id=com.getbackpay.refunds">
+    <a class="app" href="refunds/">
       <div class="top">
         <span class="dot" style="background:#16a46a"></span>
         <h3>FTC Refunds &amp; Settlements</h3>
@@ -119,7 +123,7 @@
         to file.</p>
     </a>
 
-    <a class="app" href="https://play.google.com/store/apps/details?id=com.boonwiz.myra">
+    <a class="app" href="myra/">
       <div class="top">
         <span class="dot" style="background:#a84f63"></span>
         <h3>Myra: AI Companion &amp; Friend</h3>
@@ -128,49 +132,16 @@
         of their own. Honest about being AI, always. 18+.</p>
     </a>
 
-    <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">
+    <a class="app wide" href="tools/">
       <div class="top">
-        <span class="dot" style="background:#2f6f52"></span>
-        <h3>Sweep: Duplicate Photo Cleaner</h3>
+        <span class="dot" style="background:#0e7f96"></span>
+        <h3>File tools &mdash; five apps</h3>
       </div>
-      <p>Finds duplicate and near-identical photos and clears the space they are
-        taking. Scanning happens on your device.</p>
-    </a>
-
-    <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">
-      <div class="top">
-        <span class="dot" style="background:#3f6ea8"></span>
-        <h3>Video Compressor: Resize MB</h3>
-      </div>
-      <p>Compress a video to a target size in megabytes. Nothing is uploaded —
-        the encode runs on your phone.</p>
-    </a>
-
-    <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">
-      <div class="top">
-        <span class="dot" style="background:#8a5fb0"></span>
-        <h3>Image Compressor: Photo to KB</h3>
-      </div>
-      <p>Shrink a photo to an exact kilobyte target, for upload forms that
-        refuse anything larger.</p>
-    </a>
-
-    <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">
-      <div class="top">
-        <span class="dot" style="background:#b0603f"></span>
-        <h3>PDF Compressor: Reduce to KB</h3>
-      </div>
-      <p>Reduce a PDF to fit an attachment limit, on device, without a watermark
-        or a page cap.</p>
-    </a>
-
-    <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">
-      <div class="top">
-        <span class="dot" style="background:#3f8fa8"></span>
-        <h3>Audio Converter &amp; MP3 Cutter</h3>
-      </div>
-      <p>Convert between audio formats and trim a clip to the second. Local
-        processing, no queue, no account.</p>
+      <p>Compress video, images and PDFs to an exact size, convert and cut audio,
+        and clear duplicate photos. Everything runs on your device &mdash; nothing
+        is ever uploaded.</p>
+      <p class="names">Video Compressor &middot; Image Compressor &middot; PDF Compressor
+        &middot; Audio Converter &amp; MP3 Cutter &middot; Sweep</p>
     </a>
 
     <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">

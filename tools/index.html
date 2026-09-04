@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Boonwiz file tools — compress, convert and clean up, on your phone</title>
+<meta name="description" content="Five file tools that run entirely on your device. Compress video, images and PDFs to an exact size, convert audio, and clear duplicate photos. Nothing is ever uploaded.">
+<style>
+  /* Slate and a single cyan accent. These are workshop tools, not a lifestyle
+     product: the page should feel like a well-labelled toolbox, so the palette
+     stays cool and the type does the work. */
+  :root {
+    --ground: #f5f7f8;
+    --surface: #ffffff;
+    --deep: #10212b;
+    --ink: #121d24;
+    --ink-2: #4c5b64;
+    --ink-3: #7f8d96;
+    --line: #dee5e9;
+    --accent: #0e7f96;
+    --accent-lt: #d8eef3;
+    --shadow: 0 1px 2px rgba(16, 33, 43, .05), 0 14px 40px rgba(16, 33, 43, .07);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0b1114;
+      --surface: #131c21;
+      --deep: #0a171e;
+      --ink: #e8eef1;
+      --ink-2: #a6b4bc;
+      --ink-3: #7a8890;
+      --line: #233037;
+      --accent: #45b6cd;
+      --accent-lt: #10262d;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 40px rgba(0, 0, 0, .3);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0; background: var(--ground); color: var(--ink);
+    font: 400 16px/1.62 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 940px; margin: 0 auto; padding: 0 22px; }
+  a { color: var(--accent); }
+
+  .hero { background: var(--deep); color: #e7eff2; padding: 26px 0 72px; }
+  .nav { display: flex; gap: 14px; font-size: 14px; margin-bottom: 58px; }
+  .nav a { color: #7fa8b6; text-decoration: none; }
+  .nav a:hover { color: #e7eff2; }
+  .nav .sep { color: #2b4753; }
+
+  .hero h1 {
+    font-size: clamp(32px, 5.6vw, 52px); line-height: 1.09; margin: 0 0 20px;
+    letter-spacing: -.03em; max-width: 16ch; text-wrap: balance;
+  }
+  .hero h1 em { font-style: normal; color: #5fd0e6; }
+  .hero .lede {
+    font-size: clamp(17px, 2.2vw, 19.5px); color: #a9c5cf; margin: 0;
+    max-width: 52ch; line-height: 1.55;
+  }
+
+  section { padding: 68px 0 0; }
+  h2 {
+    font-size: clamp(23px, 3.2vw, 30px); line-height: 1.2; margin: 0 0 12px;
+    letter-spacing: -.02em; max-width: 22ch; text-wrap: balance;
+  }
+  .sub { color: var(--ink-2); font-size: 17px; margin: 0 0 32px; max-width: 60ch; }
+
+  .apps { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .apps { grid-template-columns: 1fr 1fr; } }
+  .app {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 13px; padding: 24px 26px; box-shadow: var(--shadow);
+    display: flex; flex-direction: column; gap: 9px;
+  }
+  .app h3 { font-size: 17.5px; margin: 0; letter-spacing: -.015em; }
+  .app p { margin: 0; font-size: 15px; color: var(--ink-2); line-height: 1.55; }
+  .app .what {
+    font-size: 12px; letter-spacing: .09em; text-transform: uppercase;
+    color: var(--accent); font-weight: 600;
+  }
+  .app a { margin-top: auto; padding-top: 8px; font-size: 14.5px; font-weight: 500; }
+
+  .why {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 34px; box-shadow: var(--shadow);
+  }
+  .why ul { margin: 20px 0 0; padding: 0; list-style: none; display: grid; gap: 15px; }
+  .why li {
+    display: flex; gap: 13px; align-items: flex-start;
+    font-size: 15.5px; color: var(--ink-2); line-height: 1.55;
+  }
+  .why li b { color: var(--ink); font-weight: 600; }
+  .dot {
+    flex: none; width: 21px; height: 21px; border-radius: 6px;
+    background: var(--accent-lt); color: var(--accent);
+    display: grid; place-items: center; font-size: 12px; font-weight: 700;
+    margin-top: 2px;
+  }
+
+  .price { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .price { grid-template-columns: repeat(3, 1fr); } }
+  .tier {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 11px; padding: 20px 22px;
+  }
+  .tier b { display: block; font-size: 15px; margin-bottom: 4px; }
+  .tier .amt {
+    font-size: 22px; font-weight: 700; letter-spacing: -.02em;
+    font-variant-numeric: tabular-nums; margin-bottom: 6px;
+  }
+  .tier span { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+
+  footer {
+    margin-top: 80px; border-top: 1px solid var(--line);
+    padding: 30px 0 70px; font-size: 13.5px; color: var(--ink-3);
+  }
+  footer a { color: var(--ink-3); }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <nav class="nav">
+      <a href="../">Boonwiz</a><span class="sep">/</span><span>File tools</span>
+    </nav>
+    <h1>Your files never <em>leave your phone</em>.</h1>
+    <p class="lede">Five tools that compress, convert and tidy up &mdash; all of
+      it running on your own device. Nothing is uploaded, nothing is queued on a
+      server, and there is no account to make.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section>
+    <h2>The tools</h2>
+    <p class="sub">Each one does a single job, and each one hits an exact target
+      rather than a vague &ldquo;smaller&rdquo;.</p>
+
+    <div class="apps">
+      <div class="app">
+        <span class="what">Video</span>
+        <h3>Video Compressor: Resize MB</h3>
+        <p>Compress a video down to a target size in megabytes &mdash; useful when
+          something has to fit under an upload limit. The encode runs on your
+          phone, so a long clip never has to travel anywhere.</p>
+        <a href="https://play.google.com/store/apps/developer?id=BoonWiz">On Google Play &rarr;</a>
+      </div>
+
+      <div class="app">
+        <span class="what">Photos</span>
+        <h3>Image Compressor: Photo to KB</h3>
+        <p>Shrink a photo to an exact kilobyte target, for the upload forms that
+          refuse anything larger. Exported images have their location metadata
+          stripped.</p>
+        <a href="https://play.google.com/store/apps/developer?id=BoonWiz">On Google Play &rarr;</a>
+      </div>
+
+      <div class="app">
+        <span class="what">Documents</span>
+        <h3>PDF Compressor: Reduce to KB</h3>
+        <p>Bring a PDF under an attachment limit without a watermark, a page cap
+          or an upload. Handy for applications and portals that cap at a few
+          hundred kilobytes.</p>
+        <a href="https://play.google.com/store/apps/developer?id=BoonWiz">On Google Play &rarr;</a>
+      </div>
+
+      <div class="app">
+        <span class="what">Audio</span>
+        <h3>Audio Converter &amp; MP3 Cutter</h3>
+        <p>Convert between audio formats and trim a clip to the second. No queue
+          and no waiting on someone else's server &mdash; the conversion happens
+          locally.</p>
+        <a href="https://play.google.com/store/apps/developer?id=BoonWiz">On Google Play &rarr;</a>
+      </div>
+
+      <div class="app">
+        <span class="what">Storage</span>
+        <h3>Sweep: Duplicate Photo Cleaner</h3>
+        <p>Finds duplicate and near-identical photos across your library and
+          shows what they are costing you in storage. It compares files on the
+          device; it needs library access precisely because you cannot pick out
+          duplicates you do not yet know exist.</p>
+        <a href="https://play.google.com/store/apps/developer?id=BoonWiz">On Google Play &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="why">
+      <h2>On-device is the whole point</h2>
+      <p class="sub" style="margin-bottom:0">Most free compressors upload your
+        file, process it on a server and hand it back. That is someone else
+        holding your video.</p>
+      <ul>
+        <li><span class="dot">&#10003;</span><span><b>Nothing is uploaded.</b>
+          Compression, conversion, editing and scanning all happen locally. We
+          never receive, store or see your files.</span></li>
+        <li><span class="dot">&#10003;</span><span><b>Working copies are
+          temporary.</b> They stay on your device and are deleted within 24
+          hours, or the moment you delete them.</span></li>
+        <li><span class="dot">&#10003;</span><span><b>Location data is stripped.</b>
+          Exported images have their EXIF location metadata removed, so a photo
+          you send does not carry where it was taken.</span></li>
+        <li><span class="dot">&#10003;</span><span><b>No account.</b> Nothing to
+          register, no email to hand over, nothing to leak.</span></li>
+        <li><span class="dot">&#10003;</span><span><b>Your files stay yours.</b>
+          We claim no rights over anything you process &mdash; and as the privacy
+          policy sets out, we never receive it in the first place.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Free, with a way out of the ads</h2>
+    <p class="sub">The free version is supported by short ads: reward ads you
+      choose to watch, and in some regions a brief ad while a longer job is
+      already processing. Pro removes them entirely.</p>
+    <div class="price">
+      <div class="tier"><b>Monthly</b><div class="amt">$4.99</div><span>Billed through Google Play. A 3-day free trial where offered.</span></div>
+      <div class="tier"><b>Yearly</b><div class="amt">$19.99</div><span>Works out at about $1.67 a month.</span></div>
+      <div class="tier"><b>Lifetime</b><div class="amt">$29.99</div><span>One payment, no renewal, no subscription to remember.</span></div>
+    </div>
+  </section>
+
+  <footer>
+    <p><a href="../privacy.html">Privacy policy</a> &middot;
+       <a href="../terms.html">Terms of use</a> &middot;
+       <a href="../">More Boonwiz apps</a> &middot;
+       Support: <a href="mailto:boonyboonapp@gmail.com">boonyboonapp@gmail.com</a></p>
+    <p>Deleting an app does not cancel a subscription &mdash; cancel in Play Store &rarr; Subscriptions.</p>
+    <p>&copy; 2026 Boonwiz</p>
+  </footer>
+
+</div>
+</body>
+</html>
