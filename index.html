@@ -3,37 +3,225 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Myra — Someone to talk to</title>
+<title>Boonwiz — Android apps</title>
+<meta name="description" content="Boonwiz builds small, focused Android apps: AI companionship, file tools, and a refunds finder.">
 <style>
-  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-       background:linear-gradient(135deg,#6D3B5E 0%,#A84F63 55%,#D98A6A 100%);
-       color:#FFFDF6;min-height:100vh;display:flex;align-items:center;justify-content:center}
-  .card{max-width:560px;padding:48px 32px;text-align:center}
-  h1{font-size:56px;margin:0 0 8px;font-weight:700}
-  .tag{font-size:22px;opacity:.92;margin:0 0 28px}
-  p{font-size:16px;line-height:1.6;opacity:.88}
-  .btn{display:inline-block;margin:20px 0 8px;padding:14px 28px;border-radius:999px;
-       background:#FFFDF6;color:#6D3B5E;text-decoration:none;font-weight:600;font-size:16px}
-  .links{margin-top:34px;font-size:14px}
-  .links a{color:#FDECE6;margin:0 10px;text-decoration:underline}
-  .fine{margin-top:26px;font-size:12px;opacity:.65}
+  /* One neutral ground for a portfolio that has to hold apps of very different
+     characters — a companion app, file utilities, a puzzle game and a money
+     tool. Each app carries its own accent dot rather than the page taking on
+     any one app's palette. */
+  :root {
+    --ground: #f6f7f6;
+    --surface: #ffffff;
+    --ink: #171c19;
+    --ink-2: #4c5651;
+    --ink-3: #7e8a84;
+    --line: #e2e7e4;
+    --accent: #2f6f52;
+    --shadow: 0 1px 2px rgba(23, 28, 25, .05), 0 10px 28px rgba(23, 28, 25, .05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0f1210;
+      --surface: #171b18;
+      --ink: #eaefeb;
+      --ink-2: #a9b4ae;
+      --ink-3: #7b8781;
+      --line: #262c28;
+      --accent: #6fc79a;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .35), 0 10px 28px rgba(0, 0, 0, .3);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0 20px 90px;
+    background: var(--ground); color: var(--ink);
+    font: 400 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; }
+
+  header { padding: 76px 0 46px; }
+  .mark {
+    font: 600 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 20px;
+  }
+  h1 {
+    font-size: clamp(30px, 5.4vw, 44px); line-height: 1.12; margin: 0 0 16px;
+    letter-spacing: -.025em; max-width: 17ch; text-wrap: balance;
+  }
+  .lede { font-size: 17.5px; color: var(--ink-2); margin: 0; max-width: 56ch; }
+
+  h2 {
+    font: 600 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3);
+    margin: 0 0 18px; padding-top: 34px; border-top: 1px solid var(--line);
+  }
+
+  .apps { display: grid; gap: 12px; margin: 0 0 46px; }
+  @media (min-width: 700px) { .apps { grid-template-columns: 1fr 1fr; } }
+
+  .app {
+    display: block; text-decoration: none; color: inherit;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 12px; padding: 20px 22px; box-shadow: var(--shadow);
+  }
+  .app:hover { border-color: var(--accent); }
+  .app:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .app .top { display: flex; align-items: center; gap: 10px; margin-bottom: 7px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+  .app h3 { font-size: 16.5px; font-weight: 600; margin: 0; letter-spacing: -.01em; }
+  .app p { font-size: 14.5px; color: var(--ink-2); margin: 0; line-height: 1.55; }
+  .app .soon {
+    font: 600 10.5px/1 ui-monospace, monospace; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--ink-3);
+    border: 1px solid var(--line); border-radius: 4px; padding: 4px 6px;
+    margin-left: auto; flex: none;
+  }
+
+  .legal { display: grid; gap: 10px; margin: 0 0 40px; }
+  .legal a {
+    display: flex; justify-content: space-between; align-items: baseline;
+    gap: 16px; text-decoration: none; color: var(--ink);
+    border-bottom: 1px solid var(--line); padding: 12px 2px; font-size: 15px;
+  }
+  .legal a:hover { color: var(--accent); }
+  .legal span { color: var(--ink-3); font-size: 13.5px; text-align: right; }
+
+  footer {
+    border-top: 1px solid var(--line); padding-top: 26px;
+    font-size: 13.5px; color: var(--ink-3);
+  }
+  footer a { color: var(--ink-3); }
 </style>
 </head>
 <body>
-<div class="card">
-  <h1>Myra</h1>
-  <p class="tag">Someone to talk to.</p>
-  <p>An AI companion who remembers you — your work, your week, the thing you were
-     nervous about. Conversations that pick up where they left off. Twelve companions,
-     each with a life of their own. Honest about being AI, always.</p>
-  <a class="btn" href="https://play.google.com/store/apps/details?id=com.boonwiz.myra">Get it on Google Play</a>
-  <p>18+ · Myra's companions are AI characters, not real people.</p>
-  <div class="links">
-    <a href="https://sites.google.com/view/myra-privacy-policy/home">Privacy Policy</a>
-    <a href="https://sites.google.com/view/myra-privacy-policy/home/terms-of-use">Terms of Use</a>
-    <a href="https://sites.google.com/view/myra-privacy-policy/home/crisis-resource">Crisis Resources</a>
+<div class="wrap">
+
+  <header>
+    <p class="mark">Boonwiz</p>
+    <h1>Small Android apps that do one thing properly.</h1>
+    <p class="lede">Independent studio. No accounts, no subscriptions where a
+      one-time purchase will do, and file tools that never upload your files.</p>
+  </header>
+
+  <h2>Apps</h2>
+  <div class="apps">
+
+    <a class="app" href="https://play.google.com/store/apps/details?id=com.getbackpay.refunds">
+      <div class="top">
+        <span class="dot" style="background:#16a46a"></span>
+        <h3>FTC Refunds &amp; Settlements</h3>
+        <span class="soon">Soon</span>
+      </div>
+      <p>Refund programs, class action settlements and recall payouts you may be
+        owed, with the deadline and the official claim link. Free to check, free
+        to file.</p>
+    </a>
+
+    <a class="app" href="https://play.google.com/store/apps/details?id=com.boonwiz.myra">
+      <div class="top">
+        <span class="dot" style="background:#a84f63"></span>
+        <h3>Myra: AI Companion &amp; Friend</h3>
+      </div>
+      <p>An AI companion who remembers you. Twelve characters, each with a life
+        of their own. Honest about being AI, always. 18+.</p>
+    </a>
+
+    <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">
+      <div class="top">
+        <span class="dot" style="background:#2f6f52"></span>
+        <h3>Sweep: Duplicate Photo Cleaner</h3>
+      </div>
+      <p>Finds duplicate and near-identical photos and clears the space they are
+        taking. Scanning happens on your device.</p>
+    </a>
+
+    <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">
+      <div class="top">
+        <span class="dot" style="background:#3f6ea8"></span>
+        <h3>Video Compressor: Resize MB</h3>
+      </div>
+      <p>Compress a video to a target size in megabytes. Nothing is uploaded —
+        the encode runs on your phone.</p>
+    </a>
+
+    <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">
+      <div class="top">
+        <span class="dot" style="background:#8a5fb0"></span>
+        <h3>Image Compressor: Photo to KB</h3>
+      </div>
+      <p>Shrink a photo to an exact kilobyte target, for upload forms that
+        refuse anything larger.</p>
+    </a>
+
+    <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">
+      <div class="top">
+        <span class="dot" style="background:#b0603f"></span>
+        <h3>PDF Compressor: Reduce to KB</h3>
+      </div>
+      <p>Reduce a PDF to fit an attachment limit, on device, without a watermark
+        or a page cap.</p>
+    </a>
+
+    <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">
+      <div class="top">
+        <span class="dot" style="background:#3f8fa8"></span>
+        <h3>Audio Converter &amp; MP3 Cutter</h3>
+      </div>
+      <p>Convert between audio formats and trim a clip to the second. Local
+        processing, no queue, no account.</p>
+    </a>
+
+    <a class="app" href="https://play.google.com/store/apps/developer?id=BoonWiz">
+      <div class="top">
+        <span class="dot" style="background:#a8873f"></span>
+        <h3>Reverse Sing: Backwards Video</h3>
+      </div>
+      <p>Record forwards, play backwards, and learn the reversed take. The
+        internet's oldest party trick, made easy.</p>
+    </a>
+
+    <a class="app" href="https://play.google.com/store/apps/details?id=com.boonwiz.arrowuntangle">
+      <div class="top">
+        <span class="dot" style="background:#6f7f8a"></span>
+        <h3>Arrow Untangle</h3>
+      </div>
+      <p>A quiet spatial puzzle. Rotate the arrows until none of them cross.</p>
+    </a>
+
   </div>
-  <p class="fine">Support: boonyboonapp@gmail.com · © 2026 boonwiz</p>
+
+  <h2>Privacy &amp; terms</h2>
+  <div class="legal">
+    <a href="refunds/privacy.html">
+      FTC Refunds &amp; Settlements — privacy policy
+      <span>com.getbackpay.refunds</span>
+    </a>
+    <a href="privacy.html">
+      File tools — privacy policy
+      <span>Compressors, Audio Converter, Sweep</span>
+    </a>
+    <a href="terms.html">
+      File tools — terms of use
+      <span>Compressors, Audio Converter, Sweep</span>
+    </a>
+    <a href="https://sites.google.com/view/myra-privacy-policy/home">
+      Myra — privacy policy
+      <span>com.boonwiz.myra</span>
+    </a>
+    <a href="https://sites.google.com/view/myra-privacy-policy/home/terms-of-use">
+      Myra — terms of use
+      <span>com.boonwiz.myra</span>
+    </a>
+  </div>
+
+  <footer>
+    <p>Support: <a href="mailto:boonyboonapp@gmail.com">boonyboonapp@gmail.com</a>
+      &middot; <a href="https://play.google.com/store/apps/developer?id=BoonWiz">All apps on Google Play</a></p>
+    <p>&copy; 2026 Boonwiz</p>
+  </footer>
+
 </div>
 </body>
 </html>

@@ -1,0 +1,52 @@
+/* Shared shell for the legal pages. Neutral on purpose: these are read, not
+   marketed at, and they are linked from apps with very different palettes. */
+:root {
+  --ground: #f6f7f6;
+  --surface: #ffffff;
+  --ink: #1a1f1c;
+  --ink-2: #4c5651;
+  --ink-3: #7c8781;
+  --line: #e0e5e2;
+  --accent: #2f6f52;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #10130f;
+    --surface: #171b18;
+    --ink: #e9ede9;
+    --ink-2: #aab5ae;
+    --ink-3: #7d8a83;
+    --line: #262c28;
+    --accent: #6fc79a;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0 20px 96px;
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+main { max-width: 720px; margin: 0 auto; padding-top: 48px; }
+.back { font-size: 14px; margin: 0 0 28px; }
+.back a { color: var(--ink-3); text-decoration: none; }
+.back a:hover { color: var(--accent); }
+h1 { font-size: 34px; line-height: 1.15; margin: 0 0 6px; letter-spacing: -.02em; }
+.sub { color: var(--ink-3); font-size: 14px; margin: 0 0 34px; }
+h2 {
+  font-size: 19px; margin: 40px 0 10px; letter-spacing: -.01em;
+  padding-top: 4px;
+}
+p { margin: 0 0 14px; color: var(--ink-2); }
+ul { margin: 0 0 16px; padding-left: 22px; color: var(--ink-2); }
+li { margin-bottom: 8px; }
+li::marker { color: var(--accent); }
+strong { color: var(--ink); font-weight: 600; }
+a { color: var(--accent); }
+code {
+  font: 400 13px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 4px; padding: 1px 5px; color: var(--ink-2);
+}
+hr { border: 0; border-top: 1px solid var(--line); margin: 34px 0; }
