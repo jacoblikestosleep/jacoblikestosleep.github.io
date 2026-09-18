@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gerador de Orçamento PDF e MEI — orçamento no celular com QR Code PIX</title>
+<meta name="description" content="Faça orçamento em PDF no celular: itens com quantidade e valor, desconto, validade e QR Code PIX. Envie pelo WhatsApp. Para autônomos, prestadores de serviço e MEI. Sem cadastro, funciona offline.">
+<style>
+  /* Quote blue on a cool paper ground: the sibling of Recibo Simples PDF (green). Calm and practical;
+     the generated quote itself is the hero. */
+  :root {
+    --ground: #f5f7fb;
+    --surface: #ffffff;
+    --deep: #143a78;
+    --ink: #141a24;
+    --ink-2: #4a5566;
+    --ink-3: #7a8596;
+    --line: #dde3ec;
+    --blue: #1f4e9a;
+    --blue-lt: #dce6f7;
+    --amber: #ffd45c;
+    --shadow: 0 1px 2px rgba(20, 58, 120, .05), 0 14px 40px rgba(20, 58, 120, .08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0c1018;
+      --surface: #141a24;
+      --deep: #0d2a5a;
+      --ink: #e8edf5;
+      --ink-2: #a9b4c6;
+      --ink-3: #7b879a;
+      --line: #243044;
+      --blue: #9dbbf0;
+      --blue-lt: #16233a;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 40px rgba(0, 0, 0, .3);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--ground); color: var(--ink);
+    font: 400 16px/1.62 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 22px; }
+  a { color: var(--blue); }
+
+  .hero { background: var(--deep); color: #eaf0fa; padding: 26px 0 0; overflow: hidden; }
+  .nav { display: flex; align-items: center; gap: 14px; font-size: 14px; margin-bottom: 54px; }
+  .nav a { color: #9fb8e2; text-decoration: none; }
+  .nav a:hover { color: #eaf0fa; }
+  .nav .sep { color: #33558f; }
+  .hero-grid { display: grid; gap: 40px; align-items: end; }
+  @media (min-width: 860px) { .hero-grid { grid-template-columns: 1.05fr 1fr; } }
+  .hero h1 {
+    font-size: clamp(34px, 5.6vw, 54px); line-height: 1.08; margin: 0 0 20px;
+    letter-spacing: -.03em; max-width: 14ch; text-wrap: balance;
+  }
+  .hero h1 em { font-style: normal; color: var(--amber); }
+  .hero .lede { font-size: clamp(17px, 2.1vw, 19.5px); color: #bfd0ee; margin: 0 0 30px; max-width: 46ch; }
+  .cta {
+    display: inline-block; background: var(--amber); color: #2a2100;
+    font-weight: 700; font-size: 16px; text-decoration: none;
+    padding: 15px 28px; border-radius: 10px;
+  }
+  .cta:hover { background: #ffe28a; }
+  .cta:focus-visible { outline: 3px solid #9fb8e2; outline-offset: 3px; }
+  .under { font-size: 13.5px; color: #8fa9d6; margin: 14px 0 64px; }
+  .doc {
+    background: #fff; border-radius: 18px 18px 0 0; padding: 18px 18px 0;
+    box-shadow: 0 -10px 60px rgba(0,0,0,.25); transform: rotate(-1.5deg) translateY(12px);
+  }
+  .doc img { width: 100%; height: auto; display: block; border-radius: 8px 8px 0 0; }
+
+  section { padding: 76px 0 0; }
+  h2 { font-size: clamp(24px, 3.4vw, 32px); line-height: 1.18; margin: 0 0 14px; letter-spacing: -.02em; max-width: 22ch; text-wrap: balance; }
+  .sub { color: var(--ink-2); font-size: 17px; margin: 0 0 34px; max-width: 58ch; }
+
+  .feats { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .feats { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) { .feats { grid-template-columns: repeat(3, 1fr); } }
+  .feat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
+  .feat b { display: block; font-size: 16px; margin-bottom: 4px; }
+  .feat span { font-size: 14.5px; color: var(--ink-2); }
+
+  .shots { display: grid; gap: 28px; grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .shots { grid-template-columns: 1fr 1fr; max-width: 820px; } }
+  .shot img { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+  .shot h3 { font-size: 16.5px; margin: 18px 0 5px; letter-spacing: -.01em; }
+  .shot p { font-size: 14.5px; color: var(--ink-2); margin: 0; }
+
+  .who { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .who li { background: var(--blue-lt); color: var(--ink); border-radius: 999px; padding: 8px 16px; font-size: 14.5px; }
+
+  .pair {
+    display: flex; gap: 18px; align-items: center; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow); max-width: 760px;
+  }
+  .pair .dot { flex: none; width: 46px; height: 46px; border-radius: 12px; background: #0a7c55; }
+  .pair p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  .pair b { color: var(--ink); }
+
+  .note {
+    border-left: 3px solid var(--blue); background: var(--surface);
+    padding: 20px 24px; border-radius: 0 12px 12px 0; margin: 34px 0 0; max-width: 760px;
+  }
+  .note p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  .note b { color: var(--ink); }
+
+  footer { margin-top: 84px; border-top: 1px solid var(--line); padding: 30px 0 70px; font-size: 13.5px; color: var(--ink-3); }
+  footer a { color: var(--ink-3); }
+  .disclaimer { margin-top: 16px; max-width: 68ch; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <nav class="nav">
+      <a href="../">BoonWiz</a>
+      <span class="sep">/</span>
+      <span>Orçamento PDF</span>
+    </nav>
+    <div class="hero-grid">
+      <div>
+        <h1>Orçamento em PDF, <em>direto do celular</em>.</h1>
+        <p class="lede">Adicione os itens do serviço, confira o total e envie pelo WhatsApp.
+          O orçamento sai com validade, forma de pagamento e um QR Code PIX para o
+          cliente pagar na hora.</p>
+        <a class="cta" href="https://play.google.com/store/apps/details?id=com.boonwiz.orcamentosimples.pdf">Baixar na Google Play</a>
+        <p class="under">Grátis. Sem cadastro. Funciona sem internet.</p>
+      </div>
+      <div class="doc">
+        <img src="img/orcamento-pdf.png" alt="Orçamento em PDF gerado pelo app: número 0002, três itens com quantidade e valor, desconto, total de R$ 1.742,50 por extenso, condições, QR Code PIX e assinatura." width="1488" height="1725">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section>
+    <h2>Tudo o que um orçamento precisa, em uma tela</h2>
+    <p class="sub">Feito para quem orça serviço na obra, na casa do cliente ou no
+      meio do dia, não para quem quer um sistema de gestão.</p>
+    <div class="feats">
+      <div class="feat"><b>Itens com quantidade e valor</b><span>Aceita decimais, como 12,5 m². O total de cada linha e do orçamento aparece na hora.</span></div>
+      <div class="feat"><b>QR Code PIX no PDF</b><span>Cadastre sua chave uma vez. O cliente aponta a câmera do app do banco e paga o valor certo.</span></div>
+      <div class="feat"><b>Validade e condições</b><span>7, 15 ou 30 dias, forma de pagamento, prazo de execução e observações.</span></div>
+      <div class="feat"><b>Desconto e valor por extenso</b><span>Desconto em reais e o total escrito por extenso, sem erro.</span></div>
+      <div class="feat"><b>Aberto, aprovado ou recusado</b><span>Acompanhe cada orçamento no histórico e veja o total aprovado.</span></div>
+      <div class="feat"><b>Rascunho salvo sozinho</b><span>Saiu do app no meio do orçamento? Ele continua lá quando você voltar.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Do orçamento ao pagamento</h2>
+    <p class="sub">Envie, acompanhe e, quando o cliente aprovar, gere o recibo sem
+      digitar nada de novo.</p>
+    <div class="shots">
+      <div class="shot">
+        <img src="img/itens.png" alt="Tela do app com itens do orçamento, quantidades, valores, subtotal, desconto e total de R$ 1.742,50." width="520" height="979">
+        <h3>Monte o orçamento</h3>
+        <p>Itens, quantidades e valores, com subtotal, desconto e total calculados enquanto você digita.</p>
+      </div>
+      <div class="shot">
+        <img src="img/historico.png" alt="Histórico com o orçamento aprovado e o botão Gerar recibo deste orçamento." width="520" height="979">
+        <h3>Aprovou? Gere o recibo</h3>
+        <p>Marque como aprovado e abra o Recibo Simples PDF com o cliente e o valor já preenchidos.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="pair">
+      <span class="dot" aria-hidden="true"></span>
+      <p><b>Funciona junto com o Recibo Simples PDF.</b> Orçamento antes do serviço,
+        recibo depois do pagamento. Os dois apps são gratuitos e do mesmo
+        desenvolvedor. <a href="../recibo-simples/">Conheça o Recibo Simples PDF</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Feito para quem orça serviço</h2>
+    <ul class="who">
+      <li>Pintor</li><li>Pedreiro</li><li>Eletricista</li><li>Encanador</li>
+      <li>Marceneiro</li><li>Técnico de ar-condicionado</li><li>Jardineiro</li>
+      <li>Montador de móveis</li><li>Fotógrafo</li><li>MEI</li>
+    </ul>
+
+    <div class="note">
+      <p><b>Seus dados ficam no seu celular.</b> Não há conta nem servidor: seus
+        dados, sua chave PIX, clientes e valores nunca são enviados para nós. O app
+        não acessa sua conta bancária e é gratuito porque mostra anúncios.</p>
+    </div>
+    <div class="note">
+      <p><b>Orçamento não é nota fiscal.</b> O orçamento é uma proposta de preço.
+        Quando a emissão de nota fiscal for obrigatória, ela deve ser emitida
+        normalmente.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p><a href="privacy.html">Política de privacidade</a> &middot;
+       <a href="../">Mais apps BoonWiz</a> &middot;
+       Suporte: <a href="mailto:boonyboonapp@gmail.com">boonyboonapp@gmail.com</a></p>
+    <p class="disclaimer">Publicado por BoonWiz. Este aplicativo não tem vínculo
+      com a Receita Federal, com o Banco Central, com o Portal do Empreendedor ou
+      com qualquer órgão do governo, e não emite nota fiscal.</p>
+    <p>&copy; 2026 BoonWiz</p>
+  </footer>
+</div>
+
+</body>
+</html>
