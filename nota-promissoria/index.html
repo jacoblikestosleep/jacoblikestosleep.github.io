@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nota Promissória PDF e Carnê — nota promissória no celular</title>
+<meta name="description" content="Faça nota promissória e carnê de parcelas em PDF no celular, com valor por extenso, vencimentos, avalista e espaço para assinatura. Envie pelo WhatsApp ou imprima 3 notas por folha. Sem cadastro, funciona offline.">
+<style>
+  /* Wine on a warm paper ground: the sibling of Recibo (green) and Orçamento (blue).
+     The printed slip itself is the hero. */
+  :root {
+    --ground: #fbf7f8;
+    --surface: #ffffff;
+    --deep: #5e1b30;
+    --ink: #221519;
+    --ink-2: #5c4a50;
+    --ink-3: #8a7a80;
+    --line: #ecdfe3;
+    --blue: #7a2640;
+    --blue-lt: #f5dce4;
+    --amber: #ffd45c;
+    --shadow: 0 1px 2px rgba(94, 27, 48, .05), 0 14px 40px rgba(94, 27, 48, .08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #130c0e;
+      --surface: #1e1417;
+      --deep: #3e1220;
+      --ink: #f5e9ec;
+      --ink-2: #c6aeb5;
+      --ink-3: #9a8389;
+      --line: #3a2a2f;
+      --blue: #f0a3b8;
+      --blue-lt: #3a1a24;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 40px rgba(0, 0, 0, .3);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--ground); color: var(--ink);
+    font: 400 16px/1.62 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 22px; }
+  a { color: var(--blue); }
+
+  .hero { background: var(--deep); color: #faeef1; padding: 26px 0 0; overflow: hidden; }
+  .nav { display: flex; align-items: center; gap: 14px; font-size: 14px; margin-bottom: 54px; }
+  .nav a { color: #e6b3c2; text-decoration: none; }
+  .nav a:hover { color: #faeef1; }
+  .nav .sep { color: #8f4a60; }
+  .hero-grid { display: grid; gap: 40px; align-items: end; }
+  @media (min-width: 860px) { .hero-grid { grid-template-columns: 1.05fr 1fr; } }
+  .hero h1 {
+    font-size: clamp(34px, 5.6vw, 54px); line-height: 1.08; margin: 0 0 20px;
+    letter-spacing: -.03em; max-width: 14ch; text-wrap: balance;
+  }
+  .hero h1 em { font-style: normal; color: var(--amber); }
+  .hero .lede { font-size: clamp(17px, 2.1vw, 19.5px); color: #eccbd5; margin: 0 0 30px; max-width: 46ch; }
+  .cta {
+    display: inline-block; background: var(--amber); color: #2a2100;
+    font-weight: 700; font-size: 16px; text-decoration: none;
+    padding: 15px 28px; border-radius: 10px;
+  }
+  .cta:hover { background: #ffe28a; }
+  .cta:focus-visible { outline: 3px solid #e6b3c2; outline-offset: 3px; }
+  .under { font-size: 13.5px; color: #d9a6b5; margin: 14px 0 64px; }
+  .doc {
+    background: #fff; border-radius: 18px 18px 0 0; padding: 18px 18px 0;
+    box-shadow: 0 -10px 60px rgba(0,0,0,.25); transform: rotate(-1.5deg) translateY(12px);
+  }
+  .doc img { width: 100%; height: auto; display: block; border-radius: 8px 8px 0 0; }
+
+  section { padding: 76px 0 0; }
+  h2 { font-size: clamp(24px, 3.4vw, 32px); line-height: 1.18; margin: 0 0 14px; letter-spacing: -.02em; max-width: 22ch; text-wrap: balance; }
+  .sub { color: var(--ink-2); font-size: 17px; margin: 0 0 34px; max-width: 58ch; }
+
+  .feats { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .feats { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) { .feats { grid-template-columns: repeat(3, 1fr); } }
+  .feat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
+  .feat b { display: block; font-size: 16px; margin-bottom: 4px; }
+  .feat span { font-size: 14.5px; color: var(--ink-2); }
+
+  .shots { display: grid; gap: 28px; grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .shots { grid-template-columns: 1fr 1fr; max-width: 820px; } }
+  .shot img { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+  .shot h3 { font-size: 16.5px; margin: 18px 0 5px; letter-spacing: -.01em; }
+  .shot p { font-size: 14.5px; color: var(--ink-2); margin: 0; }
+
+  .who { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .who li { background: var(--blue-lt); color: var(--ink); border-radius: 999px; padding: 8px 16px; font-size: 14.5px; }
+
+  .pair {
+    display: flex; gap: 18px; align-items: center; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow); max-width: 760px;
+  }
+  .pair .dot { flex: none; width: 46px; height: 46px; border-radius: 12px; background: #0a7c55; }
+  .pair + .pair { margin-top: 14px; }
+  .pair .dot.blue { background: #1f4e9a; }
+  .pair p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  .pair b { color: var(--ink); }
+
+  .note {
+    border-left: 3px solid var(--blue); background: var(--surface);
+    padding: 20px 24px; border-radius: 0 12px 12px 0; margin: 34px 0 0; max-width: 760px;
+  }
+  .note p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  .note b { color: var(--ink); }
+
+  footer { margin-top: 84px; border-top: 1px solid var(--line); padding: 30px 0 70px; font-size: 13.5px; color: var(--ink-3); }
+  footer a { color: var(--ink-3); }
+  .disclaimer { margin-top: 16px; max-width: 68ch; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <nav class="nav">
+      <a href="../">BoonWiz</a>
+      <span class="sep">/</span>
+      <span>Promissória PDF</span>
+    </nav>
+    <div class="hero-grid">
+      <div>
+        <h1>Nota promissória e carnê, <em>no celular</em>.</h1>
+        <p class="lede">Informe o devedor, o valor e em quantas vezes. O app monta
+          cada nota com o texto completo e o valor por extenso, pronta para enviar
+          pelo WhatsApp ou imprimir e assinar.</p>
+        <a class="cta" href="https://play.google.com/store/apps/details?id=com.boonwiz.notapromissoria.pdf">Baixar na Google Play</a>
+        <p class="under">Grátis. Sem cadastro. Funciona sem internet.</p>
+      </div>
+      <div class="doc">
+        <img src="img/carne-pdf.png" alt="Carnê de notas promissórias em PDF: notas 1/6 e 2/6 de R$ 250,00, com vencimento, valor por extenso, credor, local de pagamento, dados do devedor e assinatura." width="1488" height="1157">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section>
+    <h2>Tudo o que a nota promissória precisa</h2>
+    <p class="sub">Para quem vende parcelado, empresta dinheiro ou faz carnê de
+      loja e quer o documento certo em poucos minutos.</p>
+    <div class="feats">
+      <div class="feat"><b>Texto completo</b><span>Promessa de pagamento, vencimento, credor, local de pagamento, data e local de emissão e assinatura do emitente.</span></div>
+      <div class="feat"><b>Valor por extenso</b><span>O valor sai em número e por extenso, sem erro de digitação.</span></div>
+      <div class="feat"><b>Carnê de até 48 parcelas</b><span>O app divide o valor, calcula os vencimentos mês a mês e numera cada nota (1/6, 2/6...).</span></div>
+      <div class="feat"><b>3 notas por folha A4</b><span>Com linha de corte. Imprima, recorte e peça a assinatura do devedor.</span></div>
+      <div class="feat"><b>Avalista opcional</b><span>Nome e CPF do avalista, com linha própria para assinar.</span></div>
+      <div class="feat"><b>Parcelas pagas</b><span>Marque o que já foi pago, veja quanto falta receber e quais notas venceram.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Da venda parcelada ao recibo</h2>
+    <p class="sub">Monte o carnê, envie ao cliente e acompanhe cada parcela até a
+      última.</p>
+    <div class="shots">
+      <div class="shot">
+        <img src="img/formulario.png" alt="Tela do app com devedor, valor total de R$ 1.500,00 em 6 parcelas e vencimentos mês a mês." width="520" height="979">
+        <h3>Monte o carnê</h3>
+        <p>Devedor, valor total, número de parcelas e primeiro vencimento. A prévia das parcelas aparece na hora.</p>
+      </div>
+      <div class="shot">
+        <img src="img/parcelas.png" alt="Histórico com o carnê de 6 parcelas, duas marcadas como pagas e o total a receber." width="520" height="979">
+        <h3>Controle quem já pagou</h3>
+        <p>Marque cada parcela paga, reenvie uma nota só ou gere o recibo da parcela.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="pair">
+      <span class="dot" aria-hidden="true"></span>
+      <p><b>Parcela paga? Gere o recibo.</b> Com o Recibo Simples PDF instalado, um
+        toque abre o recibo com o nome do devedor e o valor da parcela já preenchidos.
+        <a href="../recibo-simples/">Conheça o Recibo Simples PDF</a>.</p>
+    </div>
+    <div class="pair">
+      <span class="dot blue" aria-hidden="true"></span>
+      <p><b>Também faz orçamentos?</b> O Gerador de Orçamento PDF e MEI monta
+        orçamentos com itens, total e QR Code PIX.
+        <a href="../orcamento-simples/">Conheça o Orçamento PDF</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Para quem vende e empresta</h2>
+    <ul class="who">
+      <li>Loja de bairro</li><li>Crediário</li><li>Revendedora</li><li>Sacoleira</li>
+      <li>Venda por catálogo</li><li>Venda de carro ou moto</li><li>Empréstimo entre amigos</li>
+      <li>Autônomo</li><li>MEI</li>
+    </ul>
+
+    <div class="note">
+      <p><b>Seus dados ficam no seu celular.</b> Não há conta nem servidor: seus
+        dados, os devedores, os valores e as assinaturas nunca são enviados para nós.
+        O app é gratuito porque mostra anúncios.</p>
+    </div>
+    <div class="note">
+      <p><b>Assinatura à mão é o mais seguro.</b> O app gera o documento com os
+        elementos exigidos por lei, mas a validade depende do preenchimento correto e
+        da assinatura do devedor. Para uma eventual cobrança na Justiça, imprima a nota
+        e colha a assinatura à mão. Este app não oferece aconselhamento jurídico; em
+        caso de dúvida, consulte um advogado.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p><a href="privacy.html">Política de privacidade</a> &middot;
+       <a href="../">Mais apps BoonWiz</a> &middot;
+       Suporte: <a href="mailto:boonyboonapp@gmail.com">boonyboonapp@gmail.com</a></p>
+    <p class="disclaimer">Publicado por BoonWiz. Este aplicativo não tem vínculo
+      com bancos, cartórios, tribunais ou qualquer órgão do governo e não presta
+      serviço jurídico nem de cobrança.</p>
+    <p>&copy; 2026 BoonWiz</p>
+  </footer>
+</div>
+
+</body>
+</html>
