@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cotización PDF — cotizaciones y presupuestos desde el celular</title>
+<meta name="description" content="Crea cotizaciones en PDF desde el celular: partidas con cantidad y precio, descuento, total en letras y datos para transferencia. Para México, Colombia, Argentina y Chile. Sin registro.">
+<style>
+  /* Quote blue on a cool paper ground: the sibling of Recibo Simples PDF (green). Calm and practical;
+     the generated quote itself is the hero. */
+  :root {
+    --ground: #f5f7fb;
+    --surface: #ffffff;
+    --deep: #143a78;
+    --ink: #141a24;
+    --ink-2: #4a5566;
+    --ink-3: #7a8596;
+    --line: #dde3ec;
+    --blue: #1f4e9a;
+    --blue-lt: #dce6f7;
+    --amber: #ffd45c;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 14px 40px rgba(0, 0, 0, .08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0c1018;
+      --surface: #141a24;
+      --deep: #0d2a5a;
+      --ink: #e8edf5;
+      --ink-2: #a9b4c6;
+      --ink-3: #7b879a;
+      --line: #243044;
+      --blue: #9dbbf0;
+      --blue-lt: #16233a;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 40px rgba(0, 0, 0, .3);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--ground); color: var(--ink);
+    font: 400 16px/1.62 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 22px; }
+  a { color: var(--blue); }
+
+  .hero { background: var(--deep); color: #eaf0fa; padding: 26px 0 0; overflow: hidden; }
+  .nav { display: flex; align-items: center; gap: 14px; font-size: 14px; margin-bottom: 54px; }
+  .nav a { color: #9fb8e2; text-decoration: none; }
+  .nav a:hover { color: #eaf0fa; }
+  .nav .sep { color: #33558f; }
+  .hero-grid { display: grid; gap: 40px; align-items: end; }
+  @media (min-width: 860px) { .hero-grid { grid-template-columns: 1.05fr 1fr; } }
+  .hero h1 {
+    font-size: clamp(34px, 5.6vw, 54px); line-height: 1.08; margin: 0 0 20px;
+    letter-spacing: -.03em; max-width: 14ch; text-wrap: balance;
+  }
+  .hero h1 em { font-style: normal; color: var(--amber); }
+  .hero .lede { font-size: clamp(17px, 2.1vw, 19.5px); color: #bfd0ee; margin: 0 0 30px; max-width: 46ch; }
+  .cta {
+    display: inline-block; background: var(--amber); color: #2a2100;
+    font-weight: 700; font-size: 16px; text-decoration: none;
+    padding: 15px 28px; border-radius: 10px;
+  }
+  .cta:hover { background: #ffe28a; }
+  .cta:focus-visible { outline: 3px solid #9fb8e2; outline-offset: 3px; }
+  .under { font-size: 13.5px; color: #8fa9d6; margin: 14px 0 64px; }
+  .doc {
+    background: #fff; border-radius: 18px 18px 0 0; padding: 18px 18px 0;
+    box-shadow: 0 -10px 60px rgba(0,0,0,.25); transform: rotate(-1.5deg) translateY(12px);
+  }
+  .doc img { width: 100%; height: auto; display: block; border-radius: 8px 8px 0 0; }
+
+  section { padding: 76px 0 0; }
+  h2 { font-size: clamp(24px, 3.4vw, 32px); line-height: 1.18; margin: 0 0 14px; letter-spacing: -.02em; max-width: 22ch; text-wrap: balance; }
+  .sub { color: var(--ink-2); font-size: 17px; margin: 0 0 34px; max-width: 58ch; }
+
+  .feats { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .feats { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) { .feats { grid-template-columns: repeat(3, 1fr); } }
+  .feat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
+  .feat b { display: block; font-size: 16px; margin-bottom: 4px; }
+  .feat span { font-size: 14.5px; color: var(--ink-2); }
+
+  .shots { display: grid; gap: 28px; grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .shots { grid-template-columns: 1fr 1fr; max-width: 820px; } }
+  .shot img { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+  .shot h3 { font-size: 16.5px; margin: 18px 0 5px; letter-spacing: -.01em; }
+  .shot p { font-size: 14.5px; color: var(--ink-2); margin: 0; }
+
+  .who { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .who li { background: var(--blue-lt); color: var(--ink); border-radius: 999px; padding: 8px 16px; font-size: 14.5px; }
+
+  .pair {
+    display: flex; gap: 18px; align-items: center; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow); max-width: 760px;
+  }
+  .pair .dot { flex: none; width: 46px; height: 46px; border-radius: 12px; background: #0a7c55; }
+  .pair + .pair { margin-top: 14px; }
+  .pair .dot.wine { background: #7a2640; }
+  .pair .dot.blue { background: #1f4e9a; }
+  .pair p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  .pair b { color: var(--ink); }
+
+  .note {
+    border-left: 3px solid var(--blue); background: var(--surface);
+    padding: 20px 24px; border-radius: 0 12px 12px 0; margin: 34px 0 0; max-width: 760px;
+  }
+  .note p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  .note b { color: var(--ink); }
+
+  footer { margin-top: 84px; border-top: 1px solid var(--line); padding: 30px 0 70px; font-size: 13.5px; color: var(--ink-3); }
+  footer a { color: var(--ink-3); }
+  .disclaimer { margin-top: 16px; max-width: 68ch; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <nav class="nav">
+      <a href="../">BoonWiz</a>
+      <span class="sep">/</span>
+      <span>Cotización PDF</span>
+    </nav>
+    <div class="hero-grid">
+      <div>
+        <h1>Cotizaciones en PDF, <em>desde el celular</em>.</h1>
+        <p class="lede">Agrega las partidas del trabajo, revisa el total y envía la cotización por WhatsApp. Con vigencia, condiciones de pago y tus datos para transferencia.</p>
+        <a class="cta" href="https://play.google.com/store/apps/details?id=com.boonwiz.cotizacion.pdf">Descargar en Google Play</a>
+        <p class="under">Gratis. Sin registro. Funciona sin internet.</p>
+      </div>
+      <div class="doc">
+        <img src="img/cotizacion-pdf.png" alt="Cotización en PDF: partida con cantidad y precio, total de $3,125.00 en letras y datos para transferencia." width="1488" height="1175">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section>
+    <h2>Todo lo que necesitas, en una pantalla</h2>
+    <p class="sub">Hecho para quien trabaja desde el celular, no para quien quiere un sistema de gestión.</p>
+    <div class="feats">
+      <div class="feat"><b>Partidas con cantidad y precio</b><span>Acepta decimales, como 12,5 m². El total de cada renglón y el de la cotización se calculan al instante.</span></div>
+      <div class="feat"><b>Datos para transferencia</b><span>Tu banco y tu cuenta salen impresos: CLABE, CBU/CVU o número de cuenta, según tu país.</span></div>
+      <div class="feat"><b>Descuento y total en letras</b><span>Un descuento en pesos y el total escrito con letra, sin errores de dedo.</span></div>
+      <div class="feat"><b>Vigencia y condiciones</b><span>7, 15 o 30 días, condiciones de pago, plazo de entrega y notas.</span></div>
+      <div class="feat"><b>Abierta, aprobada o rechazada</b><span>Sigue cada cotización en el historial y mira el total aprobado.</span></div>
+      <div class="feat"><b>Borrador automático</b><span>¿Saliste a la mitad? La cotización sigue ahí cuando regresas.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Así se ve en el celular</h2>
+    <p class="sub">Llena, revisa y envía. Tus datos se llenan una sola vez.</p>
+    <div class="shots">
+      <div class="shot">
+        <img src="img/partidas.png" alt="Pantalla de la app con una partida de 12,5 × $250.00 y el total de $3,125.00." width="520" height="979">
+        <h3>Arma la cotización</h3>
+        <p>Partidas, cantidades y precios, con subtotal, descuento y total calculados mientras escribes.</p>
+      </div>
+      <div class="shot">
+        <img src="img/historial.png" alt="Historial de cotizaciones con su estado." width="520" height="979">
+        <h3>Sigue cada una</h3>
+        <p>Márcala como aprobada o rechazada, reenvíala o duplícala para otro cliente.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="pair">
+      <span class="dot" aria-hidden="true"></span>
+      <p><b>¿Te la aprobaron y te pagaron?</b> Con Recibo de Pago PDF instalada, un toque
+        abre el recibo con el cliente y el monto ya llenos.
+        <a href="../recibo-de-pago/">Conoce Recibo de Pago PDF</a>.</p>
+    </div>
+    <div class="pair">
+      <span class="dot wine" aria-hidden="true"></span>
+      <p><b>¿Vendes a crédito?</b> Pagaré PDF llena pagarés con monto en letras y hasta
+        48 cuotas. <a href="../pagare-pdf/">Conoce Pagaré PDF</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Para quien trabaja por su cuenta</h2>
+    <ul class="who"><li>Pintores</li><li>Albañiles</li><li>Electricistas</li><li>Plomeros</li><li>Carpinteros</li><li>Jardineros</li><li>Técnicos de aire acondicionado</li><li>Instaladores de muebles</li><li>Fotógrafos</li><li>Pequeños negocios</li></ul>
+
+    <div class="note"><p><b>Tus datos se quedan en tu celular.</b> No hay cuenta ni servidor: tus datos, tu cuenta bancaria, tus clientes y tus montos nunca se envían a nosotros. La app no se conecta a tu banco y es gratuita porque muestra anuncios.</p></div>
+    <div class="note"><p><b>Una cotización no es una factura.</b> La cotización es una propuesta de precio. La factura es un documento fiscal que se emite por los canales oficiales de cada país.</p></div>
+  </section>
+
+  <footer>
+    <p><a href="privacy.html">Política de privacidad</a> &middot;
+       <a href="../">Más apps BoonWiz</a> &middot;
+       Soporte: <a href="mailto:boonyboonapp@gmail.com">boonyboonapp@gmail.com</a></p>
+    <p class="disclaimer">Publicada por BoonWiz. Esta app no tiene relación con el SAT, la DIAN, la AFIP, el SII ni con ninguna autoridad fiscal, y no emite facturas.</p>
+    <p>&copy; 2026 BoonWiz</p>
+  </footer>
+</div>
+
+</body>
+</html>

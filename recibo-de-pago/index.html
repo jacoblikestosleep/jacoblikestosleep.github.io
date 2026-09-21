@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recibo de Pago PDF — recibos desde el celular</title>
+<meta name="description" content="Haz recibos de pago en PDF desde el celular, con el monto en letras, tu identificación fiscal y tu firma. Para México, Colombia, Argentina y Chile. Sin registro, funciona sin internet.">
+<style>
+  /* Quote blue on a cool paper ground: the sibling of Recibo Simples PDF (green). Calm and practical;
+     the generated quote itself is the hero. */
+  :root {
+    --ground: #f5fbf8;
+    --surface: #ffffff;
+    --deep: #075c3f;
+    --ink: #141a24;
+    --ink-2: #4a5566;
+    --ink-3: #7a8596;
+    --line: #dde3ec;
+    --blue: #0a7c55;
+    --blue-lt: #d7f0e4;
+    --amber: #ffd45c;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 14px 40px rgba(0, 0, 0, .08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0a1410;
+      --surface: #13201a;
+      --deep: #08301f;
+      --ink: #e8edf5;
+      --ink-2: #a9b4c6;
+      --ink-3: #7b879a;
+      --line: #243044;
+      --blue: #7fd6b0;
+      --blue-lt: #12301f;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 40px rgba(0, 0, 0, .3);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--ground); color: var(--ink);
+    font: 400 16px/1.62 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 22px; }
+  a { color: var(--blue); }
+
+  .hero { background: var(--deep); color: #eafaf2; padding: 26px 0 0; overflow: hidden; }
+  .nav { display: flex; align-items: center; gap: 14px; font-size: 14px; margin-bottom: 54px; }
+  .nav a { color: #8fd9ba; text-decoration: none; }
+  .nav a:hover { color: #eafaf2; }
+  .nav .sep { color: #2f7a5c; }
+  .hero-grid { display: grid; gap: 40px; align-items: end; }
+  @media (min-width: 860px) { .hero-grid { grid-template-columns: 1.05fr 1fr; } }
+  .hero h1 {
+    font-size: clamp(34px, 5.6vw, 54px); line-height: 1.08; margin: 0 0 20px;
+    letter-spacing: -.03em; max-width: 14ch; text-wrap: balance;
+  }
+  .hero h1 em { font-style: normal; color: var(--amber); }
+  .hero .lede { font-size: clamp(17px, 2.1vw, 19.5px); color: #c4e9d7; margin: 0 0 30px; max-width: 46ch; }
+  .cta {
+    display: inline-block; background: var(--amber); color: #2a2100;
+    font-weight: 700; font-size: 16px; text-decoration: none;
+    padding: 15px 28px; border-radius: 10px;
+  }
+  .cta:hover { background: #ffe28a; }
+  .cta:focus-visible { outline: 3px solid #8fd9ba; outline-offset: 3px; }
+  .under { font-size: 13.5px; color: #93c8b0; margin: 14px 0 64px; }
+  .doc {
+    background: #fff; border-radius: 18px 18px 0 0; padding: 18px 18px 0;
+    box-shadow: 0 -10px 60px rgba(0,0,0,.25); transform: rotate(-1.5deg) translateY(12px);
+  }
+  .doc img { width: 100%; height: auto; display: block; border-radius: 8px 8px 0 0; }
+
+  section { padding: 76px 0 0; }
+  h2 { font-size: clamp(24px, 3.4vw, 32px); line-height: 1.18; margin: 0 0 14px; letter-spacing: -.02em; max-width: 22ch; text-wrap: balance; }
+  .sub { color: var(--ink-2); font-size: 17px; margin: 0 0 34px; max-width: 58ch; }
+
+  .feats { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .feats { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) { .feats { grid-template-columns: repeat(3, 1fr); } }
+  .feat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
+  .feat b { display: block; font-size: 16px; margin-bottom: 4px; }
+  .feat span { font-size: 14.5px; color: var(--ink-2); }
+
+  .shots { display: grid; gap: 28px; grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .shots { grid-template-columns: 1fr 1fr; max-width: 820px; } }
+  .shot img { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+  .shot h3 { font-size: 16.5px; margin: 18px 0 5px; letter-spacing: -.01em; }
+  .shot p { font-size: 14.5px; color: var(--ink-2); margin: 0; }
+
+  .who { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .who li { background: var(--blue-lt); color: var(--ink); border-radius: 999px; padding: 8px 16px; font-size: 14.5px; }
+
+  .pair {
+    display: flex; gap: 18px; align-items: center; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow); max-width: 760px;
+  }
+  .pair .dot { flex: none; width: 46px; height: 46px; border-radius: 12px; background: #0a7c55; }
+  .pair + .pair { margin-top: 14px; }
+  .pair .dot.wine { background: #7a2640; }
+  .pair .dot.blue { background: #1f4e9a; }
+  .pair p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  .pair b { color: var(--ink); }
+
+  .note {
+    border-left: 3px solid var(--blue); background: var(--surface);
+    padding: 20px 24px; border-radius: 0 12px 12px 0; margin: 34px 0 0; max-width: 760px;
+  }
+  .note p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  .note b { color: var(--ink); }
+
+  footer { margin-top: 84px; border-top: 1px solid var(--line); padding: 30px 0 70px; font-size: 13.5px; color: var(--ink-3); }
+  footer a { color: var(--ink-3); }
+  .disclaimer { margin-top: 16px; max-width: 68ch; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <nav class="nav">
+      <a href="../">BoonWiz</a>
+      <span class="sep">/</span>
+      <span>Recibo de Pago PDF</span>
+    </nav>
+    <div class="hero-grid">
+      <div>
+        <h1>Recibos de pago, <em>desde el celular</em>.</h1>
+        <p class="lede">Escribe quién pagó, el monto y el concepto. El recibo sale con el monto en letras y tu firma, listo para enviar por WhatsApp.</p>
+        <a class="cta" href="https://play.google.com/store/apps/details?id=com.boonwiz.recibopago.pdf">Descargar en Google Play</a>
+        <p class="under">Gratis. Sin registro. Funciona sin internet.</p>
+      </div>
+      <div class="doc">
+        <img src="img/recibo-pdf.png" alt="Recibo de pago en PDF: $1,500.00, monto en letras, forma de pago y firma." width="2429" height="1224">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section>
+    <h2>Todo lo que necesitas, en una pantalla</h2>
+    <p class="sub">Hecho para quien trabaja desde el celular, no para quien quiere un sistema de gestión.</p>
+    <div class="feats">
+      <div class="feat"><b>Monto con letra</b><span>En número y en letras, como se acostumbra en cada país: &ldquo;00/100 M.N.&rdquo; en México, &ldquo;m/cte.&rdquo; en Colombia.</span></div>
+      <div class="feat"><b>Tu país, tu formato</b><span>México, Colombia, Argentina y Chile: moneda, identificación fiscal (RFC, NIT, CUIT o RUT) y teléfono locales.</span></div>
+      <div class="feat"><b>Firma con el dedo</b><span>Firma una vez y se guarda para todos tus recibos.</span></div>
+      <div class="feat"><b>Forma de pago</b><span>Efectivo, transferencia, tarjeta o depósito.</span></div>
+      <div class="feat"><b>Historial</b><span>Reenvía un recibo o repítelo con la fecha de hoy.</span></div>
+      <div class="feat"><b>Sin internet, sin cuenta</b><span>No pide correo ni contraseña, y funciona sin señal.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Así se ve en el celular</h2>
+    <p class="sub">Llena, revisa y envía. Tus datos se llenan una sola vez.</p>
+    <div class="shots">
+      <div class="shot">
+        <img src="img/formulario.png" alt="Pantalla de la app con el cliente, el monto de $1,500.00 y el concepto." width="520" height="979">
+        <h3>Llena el recibo</h3>
+        <p>Quién pagó, cuánto y por qué concepto. Tus datos se llenan una sola vez.</p>
+      </div>
+      <div class="shot">
+        <img src="img/historial.png" alt="Historial de recibos con el total cobrado." width="520" height="979">
+        <h3>Guarda y reenvía</h3>
+        <p>Todos tus recibos quedan en el historial, con el total a la vista.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="pair">
+      <span class="dot wine" aria-hidden="true"></span>
+      <p><b>¿Vendes a crédito?</b> Pagaré PDF llena pagarés con monto en letras y
+        hasta 48 cuotas, y te manda de vuelta aquí para el recibo de cada cuota pagada.
+        <a href="../pagare-pdf/">Conoce Pagaré PDF</a>.</p>
+    </div>
+    <div class="pair">
+      <span class="dot blue" aria-hidden="true"></span>
+      <p><b>¿Primero cotizas?</b> Cotización PDF arma cotizaciones con partidas, total
+        en letras y datos para transferencia. <a href="../cotizacion-pdf/">Conoce Cotización PDF</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Para quien trabaja por su cuenta</h2>
+    <ul class="who"><li>Trabajadores independientes</li><li>Renta de cuartos y locales</li><li>Pintores</li><li>Plomeros</li><li>Electricistas</li><li>Carpinteros</li><li>Estilistas</li><li>Fotógrafos</li><li>Maestros particulares</li><li>Pequeños negocios</li></ul>
+
+    <div class="note"><p><b>Tus datos se quedan en tu celular.</b> No hay cuenta ni servidor: tus datos, tus clientes y tus montos nunca se envían a nosotros. La app es gratuita porque muestra anuncios.</p></div>
+    <div class="note"><p><b>Un recibo no es una factura.</b> El recibo comprueba que recibiste un pago. La factura es un documento fiscal que se emite por los canales oficiales de cada país.</p></div>
+  </section>
+
+  <footer>
+    <p><a href="privacy.html">Política de privacidad</a> &middot;
+       <a href="../">Más apps BoonWiz</a> &middot;
+       Soporte: <a href="mailto:boonyboonapp@gmail.com">boonyboonapp@gmail.com</a></p>
+    <p class="disclaimer">Publicada por BoonWiz. Esta app no tiene relación con el SAT, la DIAN, la AFIP, el SII ni con ninguna autoridad fiscal, y no emite facturas.</p>
+    <p>&copy; 2026 BoonWiz</p>
+  </footer>
+</div>
+
+</body>
+</html>

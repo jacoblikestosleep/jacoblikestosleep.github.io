@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pagaré PDF — pagarés y cuotas desde el celular</title>
+<meta name="description" content="Llena pagarés en PDF desde el celular, con monto en letras, vencimiento, aval y hasta 48 cuotas. Para México, Colombia, Argentina y Chile. Sin registro, funciona sin internet.">
+<style>
+  /* Quote blue on a cool paper ground: the sibling of Recibo Simples PDF (green). Calm and practical;
+     the generated quote itself is the hero. */
+  :root {
+    --ground: #fbf7f8;
+    --surface: #ffffff;
+    --deep: #5e1b30;
+    --ink: #141a24;
+    --ink-2: #4a5566;
+    --ink-3: #7a8596;
+    --line: #dde3ec;
+    --blue: #7a2640;
+    --blue-lt: #f5dce4;
+    --amber: #ffd45c;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .05), 0 14px 40px rgba(0, 0, 0, .08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #130c0e;
+      --surface: #1e1417;
+      --deep: #3e1220;
+      --ink: #e8edf5;
+      --ink-2: #a9b4c6;
+      --ink-3: #7b879a;
+      --line: #243044;
+      --blue: #f0a3b8;
+      --blue-lt: #3a1a24;
+      --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 40px rgba(0, 0, 0, .3);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 0;
+    background: var(--ground); color: var(--ink);
+    font: 400 16px/1.62 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 0 22px; }
+  a { color: var(--blue); }
+
+  .hero { background: var(--deep); color: #faeef1; padding: 26px 0 0; overflow: hidden; }
+  .nav { display: flex; align-items: center; gap: 14px; font-size: 14px; margin-bottom: 54px; }
+  .nav a { color: #e6b3c2; text-decoration: none; }
+  .nav a:hover { color: #faeef1; }
+  .nav .sep { color: #8f4a60; }
+  .hero-grid { display: grid; gap: 40px; align-items: end; }
+  @media (min-width: 860px) { .hero-grid { grid-template-columns: 1.05fr 1fr; } }
+  .hero h1 {
+    font-size: clamp(34px, 5.6vw, 54px); line-height: 1.08; margin: 0 0 20px;
+    letter-spacing: -.03em; max-width: 14ch; text-wrap: balance;
+  }
+  .hero h1 em { font-style: normal; color: var(--amber); }
+  .hero .lede { font-size: clamp(17px, 2.1vw, 19.5px); color: #eccbd5; margin: 0 0 30px; max-width: 46ch; }
+  .cta {
+    display: inline-block; background: var(--amber); color: #2a2100;
+    font-weight: 700; font-size: 16px; text-decoration: none;
+    padding: 15px 28px; border-radius: 10px;
+  }
+  .cta:hover { background: #ffe28a; }
+  .cta:focus-visible { outline: 3px solid #e6b3c2; outline-offset: 3px; }
+  .under { font-size: 13.5px; color: #d9a6b5; margin: 14px 0 64px; }
+  .doc {
+    background: #fff; border-radius: 18px 18px 0 0; padding: 18px 18px 0;
+    box-shadow: 0 -10px 60px rgba(0,0,0,.25); transform: rotate(-1.5deg) translateY(12px);
+  }
+  .doc img { width: 100%; height: auto; display: block; border-radius: 8px 8px 0 0; }
+
+  section { padding: 76px 0 0; }
+  h2 { font-size: clamp(24px, 3.4vw, 32px); line-height: 1.18; margin: 0 0 14px; letter-spacing: -.02em; max-width: 22ch; text-wrap: balance; }
+  .sub { color: var(--ink-2); font-size: 17px; margin: 0 0 34px; max-width: 58ch; }
+
+  .feats { display: grid; gap: 14px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .feats { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 900px) { .feats { grid-template-columns: repeat(3, 1fr); } }
+  .feat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; }
+  .feat b { display: block; font-size: 16px; margin-bottom: 4px; }
+  .feat span { font-size: 14.5px; color: var(--ink-2); }
+
+  .shots { display: grid; gap: 28px; grid-template-columns: 1fr; }
+  @media (min-width: 760px) { .shots { grid-template-columns: 1fr 1fr; max-width: 820px; } }
+  .shot img { width: 100%; height: auto; display: block; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
+  .shot h3 { font-size: 16.5px; margin: 18px 0 5px; letter-spacing: -.01em; }
+  .shot p { font-size: 14.5px; color: var(--ink-2); margin: 0; }
+
+  .who { display: flex; flex-wrap: wrap; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .who li { background: var(--blue-lt); color: var(--ink); border-radius: 999px; padding: 8px 16px; font-size: 14.5px; }
+
+  .pair {
+    display: flex; gap: 18px; align-items: center; background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 22px 24px; box-shadow: var(--shadow); max-width: 760px;
+  }
+  .pair .dot { flex: none; width: 46px; height: 46px; border-radius: 12px; background: #0a7c55; }
+  .pair + .pair { margin-top: 14px; }
+  .pair .dot.wine { background: #7a2640; }
+  .pair .dot.blue { background: #1f4e9a; }
+  .pair p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  .pair b { color: var(--ink); }
+
+  .note {
+    border-left: 3px solid var(--blue); background: var(--surface);
+    padding: 20px 24px; border-radius: 0 12px 12px 0; margin: 34px 0 0; max-width: 760px;
+  }
+  .note p { margin: 0; color: var(--ink-2); font-size: 15.5px; }
+  .note b { color: var(--ink); }
+
+  footer { margin-top: 84px; border-top: 1px solid var(--line); padding: 30px 0 70px; font-size: 13.5px; color: var(--ink-3); }
+  footer a { color: var(--ink-3); }
+  .disclaimer { margin-top: 16px; max-width: 68ch; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <nav class="nav">
+      <a href="../">BoonWiz</a>
+      <span class="sep">/</span>
+      <span>Pagaré PDF</span>
+    </nav>
+    <div class="hero-grid">
+      <div>
+        <h1>Pagarés y cuotas, <em>desde el celular</em>.</h1>
+        <p class="lede">Escribe el deudor, el monto y en cuántas cuotas. La app arma cada pagaré con el texto que pide la ley de tu país, listo para enviar o imprimir y firmar.</p>
+        <a class="cta" href="https://play.google.com/store/apps/details?id=com.boonwiz.pagare.pdf">Descargar en Google Play</a>
+        <p class="under">Gratis. Sin registro. Funciona sin internet.</p>
+      </div>
+      <div class="doc">
+        <img src="img/pagares-pdf.png" alt="Hoja con tres pagarés impresos: 1/6, 2/6 y 3/6 de $1,000.00, con vencimiento, monto en letras y firma." width="1488" height="2106">
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <section>
+    <h2>Todo lo que necesitas, en una pantalla</h2>
+    <p class="sub">Hecho para quien trabaja desde el celular, no para quien quiere un sistema de gestión.</p>
+    <div class="feats">
+      <div class="feat"><b>El texto que pide la ley</b><span>La palabra «pagaré», la promesa de pago, el vencimiento, el lugar de pago, el beneficiario, la fecha y el lugar de emisión, y la firma.</span></div>
+      <div class="feat"><b>Cada país, su redacción</b><span>México (art. 170 LGTOC), Colombia (art. 709 C.Co.), Chile (art. 102 Ley 18.092) y Argentina (art. 101 del decreto-ley 5965/63).</span></div>
+      <div class="feat"><b>Hasta 48 cuotas</b><span>La app reparte el monto, calcula los vencimientos mes a mes y numera cada pagaré.</span></div>
+      <div class="feat"><b>3 por hoja, con línea de corte</b><span>Imprime, recorta y pide la firma del deudor.</span></div>
+      <div class="feat"><b>Aval opcional</b><span>Nombre e identificación del aval, con su propia línea para firmar.</span></div>
+      <div class="feat"><b>Control de cuotas</b><span>Marca lo pagado, mira cuánto falta por cobrar y cuáles están vencidas.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Así se ve en el celular</h2>
+    <p class="sub">Llena, revisa y envía. Tus datos se llenan una sola vez.</p>
+    <div class="shots">
+      <div class="shot">
+        <img src="img/formulario.png" alt="Pantalla de la app con el deudor, $6,000.00 y 6 cuotas." width="520" height="979">
+        <h3>Arma las cuotas</h3>
+        <p>Deudor, monto total, número de cuotas y primer vencimiento. La vista previa aparece al instante.</p>
+      </div>
+      <div class="shot">
+        <img src="img/cuotas.png" alt="Historial con una cuota pagada y el total por cobrar." width="520" height="979">
+        <h3>Controla los pagos</h3>
+        <p>Marca cada cuota pagada, reenvía un pagaré suelto o genera el recibo de la cuota.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="pair">
+      <span class="dot" aria-hidden="true"></span>
+      <p><b>¿Te pagaron una cuota?</b> Con Recibo de Pago PDF instalada, un toque abre
+        el recibo con el nombre del deudor y el monto ya llenos.
+        <a href="../recibo-de-pago/">Conoce Recibo de Pago PDF</a>.</p>
+    </div>
+    <div class="pair">
+      <span class="dot blue" aria-hidden="true"></span>
+      <p><b>¿También cotizas?</b> Cotización PDF arma cotizaciones con partidas, total
+        en letras y datos para transferencia. <a href="../cotizacion-pdf/">Conoce Cotización PDF</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Para quien trabaja por su cuenta</h2>
+    <ul class="who"><li>Tiendas de barrio</li><li>Venta a crédito y abonos</li><li>Revendedoras</li><li>Venta por catálogo</li><li>Venta de auto o moto</li><li>Préstamos entre conocidos</li><li>Trabajadores independientes</li><li>Pequeños negocios</li></ul>
+
+    <div class="note"><p><b>Tus datos se quedan en tu celular.</b> No hay cuenta ni servidor: tus datos, los deudores, los montos y las firmas nunca se envían a nosotros. La app es gratuita porque muestra anuncios.</p></div>
+    <div class="note"><p><b>La firma a mano es lo más seguro.</b> La app genera el documento con los elementos que pide la ley de tu país, pero la validez depende de que esté bien llenado y firmado por el deudor. Para cobrar en juicio, imprime el pagaré y recoge la firma a mano. En Chile suele pedirse además que la firma esté autorizada ante notario. Esta app no brinda asesoría legal; si tienes dudas, consulta a un abogado.</p></div>
+  </section>
+
+  <footer>
+    <p><a href="privacy.html">Política de privacidad</a> &middot;
+       <a href="../">Más apps BoonWiz</a> &middot;
+       Soporte: <a href="mailto:boonyboonapp@gmail.com">boonyboonapp@gmail.com</a></p>
+    <p class="disclaimer">Publicada por BoonWiz. Esta app no tiene relación con bancos, notarías, tribunales ni con ninguna autoridad, y no presta servicios jurídicos ni de cobranza.</p>
+    <p>&copy; 2026 BoonWiz</p>
+  </footer>
+</div>
+
+</body>
+</html>
