@@ -1,1 +1,4 @@
 google.com, pub-6818722779025759, DIRECT, f08c47fec0942fa0
+# Meta Audience Network - Tysiac (bidding through AdMob): property, then app ID
+facebook.com, 1139209082118242, RESELLER, c3e20eee3f780d68
+facebook.com, 1104234608758887, RESELLER, c3e20eee3f780d68
