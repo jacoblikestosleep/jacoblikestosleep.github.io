@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zagraj ze mną w Tysiąca</title>
+<meta name="description" content="Zaproszenie do stołu w Tysiąca. Dołącz kodem z wiadomości.">
+<meta property="og:title" content="Zagraj ze mną w Tysiąca!">
+<meta property="og:description" content="Zaproszenie do stołu. Puste miejsca zajmie komputer.">
+<meta property="og:type" content="website">
+<!--
+  INVITE_v1 (Tysiąc repo, docs/MULTIPLAYER.md): the link in an invitation to a friends' table, ?k=<six digits>.
+  With the app installed and this site verified (/.well-known/assetlinks.json), Android opens the app directly and this
+  page is never shown. Otherwise "Otwórz stół" opens the app at the table through Chrome's intent link, and falls back to
+  Play with the code in the install referrer, which the app reads after the install. No cookies, no scripts from
+  anywhere else, nothing sent anywhere: the code stays in the address.
+-->
+<style>
+  :root { --felt: #0E4A38; --edge: #062A1F; --gold: #E6B44C; --cream: #F7F2E6; --muted: #B9D3C6; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 50% 30%, #136048, var(--felt) 55%, var(--edge));
+         color: var(--cream); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; display: flex;
+         align-items: center; justify-content: center; padding: 24px 16px; }
+  main { width: 100%; max-width: 420px; text-align: center; }
+  h1 { font-family: Georgia, "Times New Roman", serif; color: var(--gold); font-size: 44px; margin: 0 0 4px; }
+  .tag { color: var(--muted); margin: 0 0 28px; }
+  .label { color: var(--muted); font-size: 15px; margin: 0; }
+  .code { font-family: Georgia, serif; font-size: 52px; letter-spacing: 6px; color: var(--cream); margin: 4px 0 28px; }
+  a.button { display: block; padding: 16px; border-radius: 18px; font-weight: 600; font-size: 19px; text-decoration: none;
+             margin: 0 0 12px; }
+  a.primary { background: var(--gold); color: #1C1B19; }
+  a.secondary { border: 1.5px solid var(--muted); color: var(--cream); }
+  p.how { color: var(--muted); font-size: 15px; line-height: 1.5; margin: 20px 0 0; }
+  .en { color: var(--muted); font-size: 13px; margin-top: 28px; }
+  .bad { color: var(--gold); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Tysiąc</h1>
+  <p class="tag">gra w karty po polsku</p>
+  <div id="ok" hidden>
+    <p class="label">Zaproszenie do stołu</p>
+    <p class="code" id="code"></p>
+    <a class="button primary" id="open" href="#">Otwórz stół</a>
+    <a class="button secondary" id="play" href="#">Pobierz z Google Play</a>
+    <p class="how">Masz już aplikację, a stół się nie otwiera? Otwórz Tysiąca, wybierz <b>Graj ze znajomymi</b> i wpisz kod.
+      Puste miejsca przy stole zajmie komputer.</p>
+    <p class="en">An invitation to a game of Tysiąc. Open the table in the app, or get it from Google Play — the code is above.</p>
+  </div>
+  <div id="none" hidden>
+    <p class="bad">Ten link nie ma kodu stołu. Poproś o nowe zaproszenie.</p>
+    <a class="button secondary" href="https://play.google.com/store/apps/details?id=com.boonwiz.tysiac">Tysiąc w Google Play</a>
+  </div>
+</main>
+<script>
+  (function () {
+    var k = new URLSearchParams(location.search).get("k") || "";
+    if (!/^[0-9]{6}$/.test(k)) { document.getElementById("none").hidden = false; return; }
+    var play = "https://play.google.com/store/apps/details?id=com.boonwiz.tysiac&referrer=" +
+      encodeURIComponent("utm_source=invite&utm_medium=table&utm_content=" + k);
+    var intent = "intent://jacoblikestosleep.github.io/tysiac/stol.html?k=" + k +
+      "#Intent;scheme=https;package=com.boonwiz.tysiac;S.browser_fallback_url=" + encodeURIComponent(play) + ";end";
+    var android = /Android/i.test(navigator.userAgent);
+    document.getElementById("code").textContent = k.slice(0, 3) + " " + k.slice(3);
+    document.getElementById("open").href = android ? intent : play;
+    document.getElementById("play").href = play;
+    document.getElementById("ok").hidden = false;
+  })();
+</script>
+</body>
+</html>

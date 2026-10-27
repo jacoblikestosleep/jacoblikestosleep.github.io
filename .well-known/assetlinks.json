@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.boonwiz.tysiac",
+      "sha256_cert_fingerprints": ["C8:6E:BB:52:3E:A8:AE:DB:3A:E9:4E:8A:E1:E1:37:F4:BA:5B:35:16:24:C7:E9:DE:EA:A2:58:B8:4E:FE:6A:62"]
+    }
+  }
+]
