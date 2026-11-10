@@ -185,3 +185,11 @@ xandr.com, 17779, RESELLER
 xandr.com, 7353, RESELLER
 zetaglobal.net, 525, RESELLER
 zmaticoo.com, 5135195, RESELLER
+# Open Bidding partners for Tysiac (no SDK, bid through AdMob), lines exactly as each partner's onboarding email asked, 10 Nov 2026
+pubmatic.com, 159856, DIRECT, 5d62403b186f2ace
+openx.com, 653932555, RESELLER, 6a698e2ec38604c6
+smartadserver.com, 4194-OB, RESELLER, 060d053dcf45cbf3
+smartadserver.com, 4194, RESELLER, 060d053dcf45cbf3
+sharethrough.com, 4194-OB, RESELLER, 060d053dcf45cbf3
+sharethrough.com, 4194, RESELLER, 060d053dcf45cbf3
+rubiconproject.com, 22884, DIRECT, 0bfd66d529a55807
