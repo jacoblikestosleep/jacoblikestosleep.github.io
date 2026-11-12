@@ -11,7 +11,7 @@
   <p class="back"><a href="../">&larr; BoonWiz</a></p>
   <h1>プライバシーポリシー</h1>
   <p class="sub">七並べ - 定番トランプゲーム &middot; <code>com.boonwiz.shichinarabe</code> &middot; <a href="#en">English</a></p>
-<p><strong>最終更新日：2026年10月2日</strong></p>
+<p><strong>最終更新日：2026年11月12日</strong></p>
 <p>提供：BoonWiz</p>
 <hr>
 <h2>概要</h2>
@@ -45,7 +45,7 @@
 <li>利用できる場合、Androidの広告向けAPI（プライバシーサンドボックス：Topics、Attribution Reporting）の情報</li>
 </ul>
 <p>対局や成績の内容が広告のリクエストとともに送られることはありません。マナーモード中やアプリの効果音がオフのときは、動画広告を消音で再生します。</p>
-<p><strong>「広告を削除」の購入（Google Play）。</strong>支払いはすべてGoogle Playが行います。私たちは支払い情報を受け取りません。アプリが受け取るのは購入の確認だけです。購入後は広告SDKも同意の確認も起動しません。</p>
+<p><strong>「広告を削除」の購入（Google Play）。</strong>支払いはすべてGoogle Playが行います。私たちは支払い情報を受け取りません。アプリが受け取るのは購入の確認だけです。購入後は広告SDKも同意の確認も起動しません。アプリは起動するたびに、広告が削除済みかどうかをGoogle Playに確認します。この確認と購入には、Google Play 請求サービスのライブラリを使っています。このライブラリは独自の診断ログをときどきGoogleに送信します（アプリが画面に表示されていないときのこともあります）。このログを私たちが受け取ることはなく、Googleが<a href="https://policies.google.com/privacy">プライバシーポリシー</a>に従って取り扱います。</p>
 <p><strong>評価のお願い（Google Play）。</strong>1位になったとき、45日に1回まで評価をお願いすることがあります。表示するのはGoogle Playで、評価したかどうか、どう評価したかをアプリが知ることはありません。</p>
 <p><strong>結果のシェア。</strong>「結果をシェア」を押すと、日付・ルール・順位・パスの回数の文章を、お客様が選んだアプリに渡します。手札や配札の情報は含まれません。私たちには何も送られません。</p>
 <p><strong>メール。</strong>お問い合わせいただいた場合、メールアドレスと内容を受け取り、お返事のためだけに使います。</p>
@@ -54,11 +54,11 @@
 <table>
 <tr><th>送信先</th><th>送信される情報</th><th>目的</th></tr>
 <tr><td>Google LLC（Google AdMob / Google Mobile Ads SDK、User Messaging Platform）</td><td>広告ID、App Set ID、IPアドレス、端末とアプリの情報、アプリと広告の利用状況、診断情報</td><td>広告の配信・測定、不正の防止、（必要な地域での）同意の管理</td></tr>
-<tr><td>Google LLC（Google Play 請求サービス、Google Play In-App Review）</td><td>購入の確認、評価画面の表示に必要な情報</td><td>「広告を削除」の購入と復元、評価のお願いの表示</td></tr>
+<tr><td>Google LLC（Google Play 請求サービス、Google Play In-App Review）</td><td>購入の確認、評価画面の表示に必要な情報、ライブラリ自身の診断ログ</td><td>「広告を削除」の購入と復元、評価のお願いの表示</td></tr>
 </table>
 <p>Googleによるデータの利用：<a href="https://policies.google.com/technologies/partner-sites">https://policies.google.com/technologies/partner-sites</a></p>
 <h2>私たちが集めないもの</h2>
-<p>私たち（BoonWiz）は、お名前、対局、成績、連絡先、正確な位置情報を受け取りません。本アプリは、独自の分析ツールやクラッシュレポートを使っていません。</p>
+<p>私たち（BoonWiz）は、お名前、対局、成績、連絡先、正確な位置情報を受け取りません。本アプリは、請求サービスのライブラリ自身の診断ログ（上記）を除き、独自の分析ツールやクラッシュレポートを使っていません。</p>
 <hr>
 <h2>広告とお客様の選択</h2>
 <p>法律で必要な地域（欧州経済領域、英国、スイス）では、広告をリクエストする前にGoogleの同意フォーム（UMP）を表示します。選択はいつでも <strong>設定 &rarr; プライバシー設定（広告の同意）</strong> で変更できます。</p>
@@ -79,7 +79,7 @@
 <section id="en" lang="en">
 <h1>Privacy Policy (English)</h1>
 <p class="sub">七並べ (Sevens) card game &middot; <code>com.boonwiz.shichinarabe</code></p>
-<p><strong>Last updated: 2 October 2026</strong></p>
+<p><strong>Last updated: 12 November 2026</strong></p>
 <p>Published by BoonWiz.</p>
 <h2>Summary</h2>
 <ul>
@@ -100,14 +100,14 @@
 <p><strong>Reminders</strong> are off until you turn them on; your phone schedules them itself (Android WorkManager), at most one a day, and nothing is sent anywhere. <strong>Android backup</strong> may include this data in your Google account so it follows you to a new phone; we have no access. If you delete the app, this data is removed; we have no copy.</p>
 <h2>What leaves your device</h2>
 <p><strong>Ads (Google AdMob).</strong> A banner on the home screen, one above the table on tall screens, now and then a full-screen ad when a game ends (never during a game), and a video only when you choose one (for 待った, a take-back, or a missed day's game). To show and measure ads, the Google Mobile Ads SDK may automatically collect device identifiers (advertising ID, app set ID), approximate location derived from the IP address, app and ad interactions (app launches, taps, video views), diagnostics, and Android Privacy Sandbox signals where available. Nothing about your games is sent with ad requests. Video ads play muted when your phone is on silent or vibrate, or the game's sound is off.</p>
-<p><strong>"Remove ads" (Google Play).</strong> Payment is handled entirely by Google Play; we receive only a confirmation. After it, neither the ads SDK nor the consent form starts.</p>
+<p><strong>"Remove ads" (Google Play).</strong> Payment is handled entirely by Google Play; we receive only a confirmation. After it, neither the ads SDK nor the consent form starts. Each time the app starts, it asks Google Play whether ads have been removed. It does this, and the purchase, through Google Play's billing library, which also sends Google its own diagnostic logs from time to time, sometimes when the app is not on screen. We do not receive these logs; Google handles them under its <a href="https://policies.google.com/privacy">privacy policy</a>.</p>
 <p><strong>Rating (Google Play).</strong> After a win, at most every 45 days; Google Play shows the window and the app does not learn whether or how you rate it.</p>
 <p><strong>Sharing a result</strong> hands a line of text (date, rule, place, passes — no cards) to the app you pick; nothing comes to us.</p>
 <p><strong>Email.</strong> If you write to us, we use your address and message only to reply.</p>
 <h2>External transmission (Japan)</h2>
-<p>As listed in the Japanese table above: Google LLC receives ad and device identifiers, the IP address, device, app and usage information and diagnostics (ads, measurement, fraud prevention, consent where required), and Google Play purchase and review information (the purchase and its restoring, the rating window).</p>
+<p>As listed in the Japanese table above: Google LLC receives ad and device identifiers, the IP address, device, app and usage information and diagnostics (ads, measurement, fraud prevention, consent where required), and Google Play purchase and review information (the purchase and its restoring, the rating window), plus the billing library's own diagnostic logs.</p>
 <h2>What we never collect</h2>
-<p>We do not receive your name, games, statistics, contacts or precise location. The app uses no analytics or crash-reporting tools of its own.</p>
+<p>We do not receive your name, games, statistics, contacts or precise location. Apart from the billing library's own diagnostics (described above), the app uses no analytics or crash-reporting tools of its own.</p>
 <h2>Ads and your choices</h2>
 <p>Where the law requires it (the EEA, the UK and Switzerland), the app shows Google's consent form (UMP) before requesting ads; change your choice at any time in <strong>設定 &rarr; プライバシー設定（広告の同意）</strong>. Reset or delete your advertising ID in <strong>Android Settings &rarr; Privacy &rarr; Ads</strong>. The app works the same with or without personalised ads.</p>
 <h2>Children</h2>
